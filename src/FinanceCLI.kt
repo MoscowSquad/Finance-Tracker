@@ -43,7 +43,15 @@ class FinanceCLI(
     }
 
     private fun addIncomeMenu() {
-        TODO("Not yet implemented")
+        var incomeAmount: Double
+        print("---------------------------\n" +
+                "Lets add income\n" +
+                "Enter Amount: ")
+        incomeAmount = readln().toDouble()
+        print("Chose Income Category")
+
+        // print Income Category
+        // pass to add income function
     }
 
     private fun viewTransaction() {
@@ -57,10 +65,10 @@ class FinanceCLI(
 
         // view all Categories
         print("What do you want to do?\n" +
-                "1. Add\n" +
-                "2. Edit\n" +
-                "3. Delete\n" +
-                "3. Back\n" +
+                "1. Add\n" + // done
+                "2. Edit\n" + // done
+                "3. Delete\n" +// done
+                "3. Back\n" +// done
                 "Enter Your Option: ")
         when (readln()){
             "1" -> addCategory()
