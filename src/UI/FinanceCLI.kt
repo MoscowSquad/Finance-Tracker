@@ -1,4 +1,4 @@
 package UI
-    fun runApp(){
-     MenusManager.startMenu()
-    }
+fun runApp(){
+    MenusManager.startMenu()
+}
