@@ -61,6 +61,7 @@ object MenusManager {
 
 
     fun categoriesMenu() {
+        while (true){
             print("---------------------------\n" +
                     "Categories Menu\n" +
                     "Here is all the Categories:\n")
@@ -70,7 +71,7 @@ object MenusManager {
                     "1. Add\n" + // done
                     "2. Edit\n" + // done
                     "3. Delete\n" +// done
-                    "3. Back\n" +// done
+                    "4. Back\n" +// done
                     "Enter Your Option: ")
             when (readln()){
                 "1" -> CategoryManger.addCategory()
@@ -80,6 +81,7 @@ object MenusManager {
                 else -> println("Valid Input try again")
             }
         }
+    }
 
     fun viewTransactionMenu() {
         print("---------------------------\n" +
