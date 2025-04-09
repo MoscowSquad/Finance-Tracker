@@ -83,13 +83,17 @@ class FinanceCLI(
             "e" -> categoryType = "expanses"
             else -> println("Valid Input try again")
         }
+
+        // add category with by using newCategory & categoryType
+
     }
+
     private fun deleteCategory() {
         TODO("Not yet implemented")
     }
 
     private fun editCategory() {
-        TODO("Not yet implemented")
+
     }
 
 
