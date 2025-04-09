@@ -19,6 +19,10 @@ class FinanceCLI(
         }
     }
 
+    private fun expensesMenu() {
+        TODO("Not yet implemented")
+    }
+
     private fun incomeMenu() {
         print("---------------------------\n" +
                 "Income Menu\n" +
@@ -66,6 +70,33 @@ class FinanceCLI(
             else -> println("Valid Input try again")
         }
     }
+
+    private fun editCategory() {
+        var editCategoryByID: Int
+        var editCategoryString: String
+        print("---------------------------\n" +
+                "Enter category ID: ")
+        editCategoryByID = readln().toInt()
+
+        // this category exist ?? return true or false
+
+        print("What do you want to edit (1 .name | 2. type): ")
+        when(readln()){
+            "1" ->  {
+                print("Enter Category Name: ")
+                editCategoryString = readln().toString()
+                // pass this to edit function
+                println("updated")
+            }
+            "2" -> {
+                print("Enter Category Type: ")
+                editCategoryString = readln().toString()
+                // pass this to edit function
+                println("updated")
+            }
+        }
+    }
+
     private fun addCategory() {
         var newCategory: String
         var categoryType: String
@@ -91,19 +122,4 @@ class FinanceCLI(
     private fun deleteCategory() {
         TODO("Not yet implemented")
     }
-
-    private fun editCategory() {
-
-    }
-
-
-
-    private fun expensesMenu() {
-        print("---------------------------\n" +
-                "Expenses Menu\n")
-    }
-
-
-
-
 }
