@@ -41,17 +41,19 @@ object MenusManager {
     }
 
     fun incomeMenu() {
-        print("---------------------------\n" +
-                "Income Menu\n" +
-                "1- Add Income\n" + //done
-                "2- View income transaction\n" + // done
-                "3- Back\n" +
-                "Enter Your option: ")
-        when(readln()){
-            "1" -> IncomeManager.addIncomeMenu()
-            "2" -> IncomeManager.viewIncomeTransaction()
-            "3" -> return
-            else -> println("Valid Input try again")
+        while (true){
+            print("---------------------------\n" +
+                    "Income Menu\n" +
+                    "1- Add Income\n" + //done
+                    "2- View income transaction\n" + // done
+                    "3- Back\n" +
+                    "Enter Your option: ")
+            when(readln()){
+                "1" -> IncomeManager.addIncomeMenu()
+                "2" -> IncomeManager.viewIncomeTransaction()
+                "3" -> return
+                else -> println("Valid Input try again")
+            }
         }
     }
 
