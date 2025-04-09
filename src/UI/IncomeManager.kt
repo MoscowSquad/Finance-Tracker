@@ -5,15 +5,19 @@ object IncomeManager {
 
 
     fun addIncomeMenu() {
-         print("---------------------------\n" +
+
+        print("---------------------------\n" +
                 "Lets add income\n" +
                 "Enter Amount: ")
-         var incomeAmount: Double = readln().toDouble()
-        println("your transaction added successfully ")
+        var incomeAmount: Double = readln().toDouble()
+
         print("Chose Income Category\n")
 
         // print Income Category
+
         // pass to add income function
+        println("Income added successfully")
+
     }
 
 
