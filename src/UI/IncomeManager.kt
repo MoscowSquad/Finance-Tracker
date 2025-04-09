@@ -4,7 +4,7 @@ object IncomeManager {
 
 
 
-     fun addIncomeMenu() {
+    fun addIncomeMenu() {
          print("---------------------------\n" +
                 "Lets add income\n" +
                 "Enter Amount: ")
@@ -35,7 +35,7 @@ object IncomeManager {
     }
 
 
-     fun deleteIncomeTransaction() {
+    fun deleteIncomeTransaction() {
         print("Enter Transaction ID: ")
         var deleteIncomeTransactionId: Int = readln().toInt()
         // this Transaction exist ??
