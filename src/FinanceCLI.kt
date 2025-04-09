@@ -120,6 +120,22 @@ class FinanceCLI(
     }
 
     private fun deleteCategory() {
-        TODO("Not yet implemented")
+        var editCategoryByID: Int
+        print("---------------------------\n" +
+                "Enter Category ID: ")
+        editCategoryByID = readln().toInt()
+        // this category exist ?? return true | false
+        print("Are you sure you want to delete category No.$editCategoryByID (y | n): ")
+        when(readln().lowercase()){
+            "y" -> {
+                println("the Category ${editCategoryByID} is deleted")
+                // call delete function
+            }
+            "n" -> {
+                println("Process canceled")
+                categoriesMenu()
+            }
+        }
     }
 }
+// ---------------------------
