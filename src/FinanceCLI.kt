@@ -67,7 +67,22 @@ class FinanceCLI(
         }
     }
     private fun addCategory() {
+        var newCategory: String
+        var categoryType: String
 
+        print("---------------------------\n" +
+                "Lets add new Category\n" +
+                "Enter category name: ")
+
+        newCategory = readln()
+
+        print("What is the category type? (i. Income | e. Expanses) :")
+
+        when(readln().lowercase()){
+            "i" -> categoryType = "income"
+            "e" -> categoryType = "expanses"
+            else -> println("Valid Input try again")
+        }
     }
     private fun deleteCategory() {
         TODO("Not yet implemented")
