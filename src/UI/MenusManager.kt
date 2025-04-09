@@ -24,19 +24,21 @@ object MenusManager {
     }
 
     fun expensesMenu() {
-        print(
-            "---------------------------\n" +
-                    "Expense Menu\n" +
-                    "1- Add expense\n" + //done
-                    "2- View expense transaction\n" + // done
-                    "3- Back\n" +
-                    "Enter Your option: "
-        )
-        when (readln()) {
-            "1" -> ExpenseManager.addExpenseMenu()
-            "2" -> ExpenseManager.viewExpenseTransaction()
-            "3" -> return
-            else -> println("Valid Input try again")
+        while (true){
+            print(
+                "---------------------------\n" +
+                        "Expense Menu\n" +
+                        "1- Add expense\n" + //done
+                        "2- View expense transaction\n" + // done
+                        "3- Back\n" +
+                        "Enter Your option: "
+            )
+            when (readln()) {
+                "1" -> ExpenseManager.addExpenseMenu()
+                "2" -> ExpenseManager.viewExpenseTransaction()
+                "3" -> return
+                else -> println("Valid Input try again")
+            }
         }
     }
 
