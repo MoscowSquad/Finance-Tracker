@@ -87,7 +87,7 @@ object MenusManager {
         print("---------------------------\n" +
                 "OK, here is your monthly report:\n")
         // call view function
-        print("Do you want to show transactions (y I n): ")
+        print("Do you want to show transactions (y | n): ")
         when(readln().lowercase()){
             "y" -> {
                 println("Here is the transactions done this month: ")
