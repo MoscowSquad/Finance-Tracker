@@ -26,7 +26,7 @@ class FinanceCLI(
     private fun incomeMenu() {
         print("---------------------------\n" +
                 "Income Menu\n" +
-                "1- Add Income\n" +
+                "1- Add Income\n" + //done
                 "2- View income transaction\n" +
                 "3- Back\n" +
                 "Enter Your option: ")
