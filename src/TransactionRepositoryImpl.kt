@@ -12,7 +12,8 @@ override fun addTransaction(transaction: Transaction): Boolean {
         println("Transaction added successfully")
         true
     } catch (e: Exception) {
-        println("Error adding transaction: ${e.message}")
+        val errorMessage = "something went wrong"
+        println("Error adding transaction: $errorMessage")
         false
     }
 }
