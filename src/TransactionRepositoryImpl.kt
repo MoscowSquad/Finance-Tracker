@@ -4,20 +4,28 @@ class TransactionRepositoryImpl(
     private val transactions: MutableList<Transaction>
 ): TransactionRepository {
 
-    override fun addTransaction(transaction: Transaction): Transaction {
+override fun addTransaction(transaction: Transaction): Boolean {
+    return try {
         val newId = transactions.size + 1
         val newTransaction = transaction.copy(id = newId)
         transactions.add(newTransaction)
-        return newTransaction
+        println("Transaction added successfully")
+        true
+    } catch (e: Exception) {
+        println("Error adding transaction: ${e.message}")
+        false
     }
-
-    override fun editTransaction(transaction: Transaction): Transaction? {
+}
+    override fun editTransaction(transaction: Transaction): Boolean {
        val index = transactions.indexOfFirst{it.id == transaction.id}
-       if(index != -1){
+      return if(index != -1){
            transactions[index]= transaction
-           return transaction
-       }
-        return null
+          println("Transaction with ID ${transaction.id} updated successfully")
+          true
+       } else {
+          println("Error: Transaction with ID ${transaction.id} not found")
+          false
+      }
     }
 
 }
