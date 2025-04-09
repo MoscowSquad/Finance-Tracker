@@ -1,3 +1,9 @@
+fun main()
+{
+    val cli: FinanceCLI = FinanceCLI()
+    cli.start()
+}
+
 class FinanceCLI(
 ) {
     fun start(){
@@ -7,7 +13,8 @@ class FinanceCLI(
                     "2- Expenses\n" +
                     "3- Categories\n" + // done
                     "4- View transaction\n" +
-                    "5- Exit")
+                    "5- Exit\n" +
+                    "Enter Your option: ")
             when (readln()) {
                 "1" -> incomeMenu()
                 "2" -> expensesMenu()
@@ -32,13 +39,34 @@ class FinanceCLI(
                 "Enter Your option: ")
         when(readln()){
             "1" -> addIncomeMenu()
-            "2" -> viewIncomeTransation()
+            "2" -> viewIncomeTransaction()
             "3" -> start()
             else -> println("Valid Input try again")
         }
     }
 
-    private fun viewIncomeTransation() {
+    private fun viewIncomeTransaction() {
+        print("---------------------------\n" +
+                "Here is all the income\n")
+        // call view income function
+        print("What do you want to do?\n" +
+                "1. Edit\n" +
+                "2. Delete\n" +
+                "3. Back\n" +
+                "Enter Your option: ")
+        when(readln()){
+            "1" -> editIncomeTransaction()
+            "2" -> deleteIncomeTransaction()
+            "3" -> incomeMenu()
+            else -> println("Valid Input try again")
+        }
+    }
+
+    private fun deleteIncomeTransaction() {
+        TODO("Not yet implemented")
+    }
+
+    private fun editIncomeTransaction() {
         TODO("Not yet implemented")
     }
 
@@ -48,14 +76,14 @@ class FinanceCLI(
                 "Lets add income\n" +
                 "Enter Amount: ")
         incomeAmount = readln().toDouble()
-        print("Chose Income Category")
+        print("Chose Income Category\n")
 
         // print Income Category
         // pass to add income function
     }
 
     private fun viewTransaction() {
-        TODO("Not yet implemented")
+
     }
 
     private fun categoriesMenu() {
