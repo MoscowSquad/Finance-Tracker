@@ -50,7 +50,7 @@ class FinanceCLI(
                 "Here is all the income\n")
         // call view income function
         print("What do you want to do?\n" +
-                "1. Edit\n" +
+                "1. Edit\n" + // done
                 "2. Delete\n" +
                 "3. Back\n" +
                 "Enter Your option: ")
@@ -63,7 +63,11 @@ class FinanceCLI(
     }
 
     private fun deleteIncomeTransaction() {
-        TODO("Not yet implemented")
+        var deleteIncomeTransactionId: Int
+        print("Enter Transaction ID: ")
+        deleteIncomeTransactionId = readln().toInt()
+        // this Transaction exist ??
+        // call delete fun
     }
 
     private fun editIncomeTransaction() {
