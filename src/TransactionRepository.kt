@@ -1,6 +1,6 @@
 interface TransactionRepository {
 
-    fun addTransaction(transaction: Transaction):Transaction
+    fun addTransaction(transaction: Transaction): Boolean
 
-    fun editTransaction(transaction: Transaction):Transaction?
+    fun editTransaction(transaction: Transaction):Boolean
 }
