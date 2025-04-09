@@ -67,7 +67,24 @@ class FinanceCLI(
     }
 
     private fun editIncomeTransaction() {
-        TODO("Not yet implemented")
+        var editIncomeTransactionID: Int
+        var editIncomeTransactionAmount: Double
+        print("Enter Transaction ID: ")
+        editIncomeTransactionID = readln().toInt()
+        print("What do you want to edit (1. amount 2. category): ")
+        when(readln()){
+            "1" -> {
+                print("Enter New Amount: ")
+                editIncomeTransactionAmount = readln().toDouble()
+                // pass to function and update
+                println("updated")
+            }
+            "2" -> {
+                print("Chose income Category\n")
+                // view income category
+                println("updated")
+            }
+        }
     }
 
     private fun addIncomeMenu() {
