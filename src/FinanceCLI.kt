@@ -4,7 +4,7 @@ class FinanceCLI(
         while (true){
             print("Welcome to PFT, How i can help you today\n" +
                     "1- Income\n" +
-                    "2- Expences\n" +
+                    "2- Expenses\n" +
                     "3- Categories\n" +
                     "4- View transaction\n" +
                     "5- Exit")
