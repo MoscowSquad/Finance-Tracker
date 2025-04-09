@@ -1,3 +1,5 @@
-fun main() {
+import UI.runApp
 
+fun main() {
+runApp()
 }
