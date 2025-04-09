@@ -5,31 +5,42 @@ import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-object StorageManager {
-
+object StorageManager : Storage {
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    private const val TRANSACTION_HEADER = "id,amount,type,category,date"
 
 
-    fun saveToFile(transactions: List<Transaction>, storagePath: String) {
+    override fun saveToFile(transactions: List<Transaction>, storagePath: String, userName: String?) {
         try {
             val file = File(storagePath)
-            val header = "id,amount,type,category,date\n"
+            val additionalData = "User: ${userName ?: "Unknown"}\n"
+            val header = "$TRANSACTION_HEADER\n"
             val csvLines = transactions.joinToString(separator = "\n") { transaction ->
                 "${transaction.id},${transaction.amount},${transaction.type},${transaction.category},${transaction.date.format(formatter)}"
             }
-            file.writeText(header + csvLines)
+            file.writeText(additionalData + header + csvLines)
             println("Data saved successfully")
         } catch (e: Exception) {
             println("Error saving to file: ${e.message}")
         }
     }
 
-    fun loadFromFile(storagePath: String): List<Transaction> {
+    override fun loadFromFile(storagePath: String): Pair<List<Transaction>, String?> {
         try {
             val file = File(storagePath)
             if (file.exists()) {
                 val lines = file.readLines()
-                val transactionLines = if (lines.isNotEmpty()) lines.drop(1) else emptyList()
+                val headerIndex = lines.indexOfFirst { it == TRANSACTION_HEADER }
+                if (headerIndex == -1) {
+                    println("Header not found in $storagePath")
+                    return Pair(emptyList(), null)
+                }
+                val userName = if (headerIndex > 0 && lines[0].startsWith("User: ")) {
+                    lines[0].removePrefix("User: ").trim()
+                } else {
+                    null
+                }
+                val transactionLines = lines.drop(headerIndex + 1)
                 val loadedTransactions = transactionLines.mapNotNull { line ->
                     try {
                         val parts = line.split(",")
@@ -50,14 +61,14 @@ object StorageManager {
                     }
                 }
                 println("Data loaded successfully from $storagePath")
-                return loadedTransactions
+                return Pair(loadedTransactions, userName)
             } else {
                 println("No existing data file found at $storagePath")
-                return emptyList()
+                return Pair(emptyList(), null)
             }
         } catch (e: Exception) {
             println("Error loading from file: ${e.message}")
-            return emptyList()
+            return Pair(emptyList(), null)
         }
     }
 }
