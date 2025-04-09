@@ -37,16 +37,16 @@ jobs:
           sudo apt update
           sudo apt install -y kotlin
           
-      - name: Compile Tests Validator
+      - name: Compile Kotlin files
         run: |
           mkdir -p out
-          kotlinc *.kt -include-runtime -d out/Tests.jar
+          find . -name "*.kt" > sources.txt
+          kotlinc @sources.txt -include-runtime -d out/TestRunner.jar
 
-      - name: Run Tests and Capture Output
-        id: run-tests
+      - name: Run Tests and Fail on "Failed"
         run: |
           set -o pipefail
-          OUTPUT=$(kotlin kotlin out/Tests.jar | tee output.log)
+          OUTPUT=$(kotlin out/TestRunner.jar | tee output.log)
           echo "$OUTPUT"
           echo "$OUTPUT" | grep -q "Failed" && exit 1 || echo "All tests passed"
 
