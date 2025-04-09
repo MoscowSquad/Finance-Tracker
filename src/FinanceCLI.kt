@@ -12,7 +12,7 @@ class FinanceCLI(
                     "1- Income\n" + // done
                     "2- Expenses\n" +
                     "3- Categories\n" + // done
-                    "4- View transaction\n" +
+                    "4- View transaction\n" + //done
                     "5- Exit\n" +
                     "Enter Your option: ")
             when (readln()) {
@@ -27,14 +27,14 @@ class FinanceCLI(
     }
 
     private fun expensesMenu() {
-        TODO("Not yet implemented")
+        println("expensesMenu")
     }
 
     private fun incomeMenu() {
         print("---------------------------\n" +
                 "Income Menu\n" +
                 "1- Add Income\n" + //done
-                "2- View income transaction\n" +
+                "2- View income transaction\n" + // done
                 "3- Back\n" +
                 "Enter Your option: ")
         when(readln()){
@@ -51,7 +51,7 @@ class FinanceCLI(
         // call view income function
         print("What do you want to do?\n" +
                 "1. Edit\n" + // done
-                "2. Delete\n" +
+                "2. Delete\n" + // done
                 "3. Back\n" +
                 "Enter Your option: ")
         when(readln()){
@@ -104,7 +104,17 @@ class FinanceCLI(
     }
 
     private fun viewTransaction() {
-
+        print("---------------------------\n" +
+                "OK, here is your monthly report:\n")
+        // call view function
+        print("Do you want to show transactions (y In): ")
+        when(readln().lowercase()){
+            "y" -> {
+                println("Here is the transactions done this month: ")
+                // view month transactions
+            }
+            "n" -> start()
+        }
     }
 
     private fun categoriesMenu() {
