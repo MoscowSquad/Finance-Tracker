@@ -1,15 +1,23 @@
+import java.time.LocalDateTime
+
 class TransactionRepositoryImpl(
     private val transactions: MutableList<Transaction>
 ): TransactionRepository {
 
-    // function that adds a single transaction
+    override fun addTransaction(transaction: Transaction): Transaction {
+        val newId = transactions.size + 1
+        val newTransaction = transaction.copy(id = newId)
+        transactions.add(newTransaction)
+        return newTransaction
+    }
 
-    // function that edits a single transaction
-
-    // function to view all transactions
-
-    // function to delete a single transaction
-
-    // function for monthly summary and balance report
+    override fun editTransaction(transaction: Transaction): Transaction? {
+       val index = transactions.indexOfFirst{it.id == transaction.id}
+       if(index != -1){
+           transactions[index]= transaction
+           return transaction
+       }
+        return null
+    }
 
 }
