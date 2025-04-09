@@ -2,7 +2,7 @@ class FinanceCLI(
 ) {
     fun start(){
         while (true){
-            println("Welcome to PFT, How i can help you today\n" +
+            print("Welcome to PFT, How i can help you today\n" +
                     "1- Income\n" +
                     "2- Expences\n" +
                     "3- Categories\n" +
@@ -14,9 +14,32 @@ class FinanceCLI(
                 "3" -> categoriesMenu()
                 "4" -> viewTransaction()
                 "5" -> break
-                else -> println("Valid Input")
+                else -> println("Valid Input try again")
             }
         }
+    }
+
+    private fun incomeMenu() {
+        print("---------------------------\n" +
+                "Income Menu\n" +
+                "1- Add Income\n" +
+                "2- View income transaction\n" +
+                "3- Back\n" +
+                "Enter Your option: ")
+        when(readln()){
+            "1" -> addIncomeMenu()
+            "2" -> viewIncomeTransation()
+            "3" -> start()
+            else -> println("Valid Input try again")
+        }
+    }
+
+    private fun viewIncomeTransation() {
+        TODO("Not yet implemented")
+    }
+
+    private fun addIncomeMenu() {
+        TODO("Not yet implemented")
     }
 
     private fun viewTransaction() {
@@ -31,9 +54,7 @@ class FinanceCLI(
         TODO("Not yet implemented")
     }
 
-    private fun incomeMenu() {
-        TODO("Not yet implemented")
-    }
+
 
 
 }
