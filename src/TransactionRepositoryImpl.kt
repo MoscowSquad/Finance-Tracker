@@ -11,12 +11,9 @@ class TransactionRepositoryImpl(
                 println("Attention: Negative transaction amount found! ")
             }
 
-
             val newId = if (transactions.isEmpty()) 1 else transactions.maxOf { it.id } + 1
 
-
             val newTransaction = transaction.copy(id = newId)
-
 
             transactions.add(newTransaction)
             println("Transaction added with ID: $newId")
@@ -28,13 +25,26 @@ class TransactionRepositoryImpl(
     }
 
     override fun editTransaction(transaction: Transaction): Boolean {
+
+        if (transaction.id == 0) {
+            println("Error: Transaction ID can't be 0")
+            return false
+        }
+
         val index = transactions.indexOfFirst { it.id == transaction.id }
         return if (index != -1) {
-            transactions[index] = transaction
-            println("Transaction with ID ${transaction.id} updated successfully")
-            true
+            val existingTransaction = transactions[index]
+
+            if (existingTransaction == transaction) {
+                println("No changes found for transaction ID ${transaction.id}")
+                true
+            } else {
+                transactions[index] = transaction
+                println("Transaction with ID ${transaction.id} updated successfully")
+                true
+            }
         } else {
-            println("Error: Transaction with ID ${transaction.id} not found")
+            println("Error: Transaction with ID ${transaction.id} could not be found")
             false
         }
     }
