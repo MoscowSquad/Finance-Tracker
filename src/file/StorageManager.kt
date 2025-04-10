@@ -19,9 +19,8 @@ object StorageManager : Storage {
                 "${transaction.id},${transaction.amount},${transaction.type},${transaction.category},${transaction.date.format(formatter)}"
             }
             file.writeText(additionalData + header + csvLines)
-            println("Data saved successfully")
         } catch (e: Exception) {
-            println("Error saving to file: ${e.message}")
+
         }
     }
 
@@ -32,7 +31,6 @@ object StorageManager : Storage {
                 val lines = file.readLines()
                 val headerIndex = lines.indexOfFirst { it == TRANSACTION_HEADER }
                 if (headerIndex == -1) {
-                    println("Header not found in $storagePath")
                     return Pair(emptyList(), null)
                 }
                 val userName = if (headerIndex > 0 && lines[0].startsWith("User: ")) {
@@ -56,18 +54,14 @@ object StorageManager : Storage {
                             null
                         }
                     } catch (e: Exception) {
-                        println("Error parsing line: $line - ${e.message}")
                         null
                     }
                 }
-                println("Data loaded successfully from $storagePath")
                 return Pair(loadedTransactions, userName)
             } else {
-                println("No existing data file found at $storagePath")
                 return Pair(emptyList(), null)
             }
         } catch (e: Exception) {
-            println("Error loading from file: ${e.message}")
             return Pair(emptyList(), null)
         }
     }
