@@ -91,13 +91,13 @@ object MenusManager {
         print("---------------------------\n" +
                 "OK, here is your monthly report:\n")
         // call view function
-        print("Do you want to show transactions (y | n): ")
-        when(readln().lowercase()){
-            "y" -> {
+        print("Do you want to show transactions (1. YES | 2. NO): ")
+        when(readln().toIntOrNull()){
+            1 -> {
                 println("Here is the transactions done this month: ")
                 // view month transactions
             }
-            "n" -> return
+            2 -> return
         }
     }
 
