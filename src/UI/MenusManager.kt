@@ -52,11 +52,12 @@ object MenusManager {
                     "2- View income transaction\n" + // done
                     "3- Back\n" +
                     "Enter Your option: ")
-            when(readln()){
-                "1" -> IncomeManager.addIncomeMenu()
-                "2" -> IncomeManager.viewIncomeTransaction()
-                "3" -> return
-                else -> println("Valid Input try again")
+            when(readln().toIntOrNull()){
+                1 -> IncomeManager.addIncomeMenu()
+                2 -> IncomeManager.viewIncomeTransaction()
+                3 -> return
+                null -> println("Invalid Input try again")
+                else -> println("Enter a valid number between 1 - 3")
             }
         }
     }
