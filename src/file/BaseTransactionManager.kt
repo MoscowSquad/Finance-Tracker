@@ -20,13 +20,13 @@ open class BaseTransactionManager(protected val storagePath: String) {
     }
 
 
-    fun addUserName() {
-        if (userName != null) {
-            println("User name already exists: $userName")
+    fun addUserName(name:String) {
+        if (name != null) {
+            println("User name already exists: $name")
             return
         }
         println("No user found. Please enter your name:")
-        val inputName = readLine() ?: ""
+        val inputName = readln() ?: ""
         userName = if (inputName.isBlank()) "Unknown" else inputName
         StorageManager.saveToFile(transactions, storagePath, userName)
         println("Hello, $userName! Your name has been saved.")
