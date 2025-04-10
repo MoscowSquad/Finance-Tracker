@@ -76,12 +76,13 @@ object MenusManager {
                     "3. Delete\n" +// done
                     "4. Back\n" +// done
                     "Enter Your Option: ")
-            when (readln()){
-                "1" -> CategoryManger.addCategory()
-                "2" -> CategoryManger.editCategory()
-                "3" -> CategoryManger.deleteCategory()
-                "4" -> return
-                else -> println("Valid Input try again")
+            when (readln().toIntOrNull()){
+                1 -> CategoryManger.addCategory()
+                2 -> CategoryManger.editCategory()
+                3 -> CategoryManger.deleteCategory()
+                4 -> return
+                null -> println("Invalid Input try again")
+                else -> println("Enter a valid number between 1 - 4")
             }
         }
     }
