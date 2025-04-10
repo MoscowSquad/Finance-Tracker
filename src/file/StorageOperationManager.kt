@@ -5,7 +5,7 @@ import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-object StorageManager : Storage {
+object StorageOperationManager : StorageOperation {
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     private const val TRANSACTION_HEADER = "id,amount,type,category,date"
 
@@ -13,31 +13,42 @@ object StorageManager : Storage {
     override fun saveToFile(transactions: List<Transaction>, storagePath: String, userName: String?) {
         try {
             val file = File(storagePath)
-            val additionalData = "User: ${userName ?: "Unknown"}\n"
-            val header = "$TRANSACTION_HEADER\n"
+            val isNewFile = file.length() == 0L
+
             val csvLines = transactions.joinToString(separator = "\n") { transaction ->
                 "${transaction.id},${transaction.amount},${transaction.type},${transaction.category},${transaction.date.format(formatter)}"
             }
-            file.writeText(additionalData + header + csvLines)
+
+            if (isNewFile) {
+                val additionalData = "User: ${userName ?: "Unknown"}\n"
+                val header = "$TRANSACTION_HEADER\n"
+                file.writeText(additionalData + header + csvLines + "\n")
+            } else {
+                file.appendText(csvLines + "\n")
+            }
+
         } catch (e: Exception) {
 
         }
     }
+
 
     override fun loadFromFile(storagePath: String): Pair<List<Transaction>, String?> {
         try {
             val file = File(storagePath)
             if (file.exists()) {
                 val lines = file.readLines()
-                val headerIndex = lines.indexOfFirst { it == TRANSACTION_HEADER }
-                if (headerIndex == -1) {
-                    return Pair(emptyList(), null)
-                }
-                val userName = if (headerIndex > 0 && lines[0].startsWith("User: ")) {
+                val userName = if (lines[0].startsWith("User: ")) {
                     lines[0].removePrefix("User: ").trim()
                 } else {
                     null
                 }
+                val headerIndex = lines.indexOfFirst { it == TRANSACTION_HEADER }
+
+                if (headerIndex == -1) {
+                    return Pair(emptyList(), userName)
+                }
+
                 val transactionLines = lines.drop(headerIndex + 1)
                 val loadedTransactions = transactionLines.mapNotNull { line ->
                     try {
