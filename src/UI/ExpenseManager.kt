@@ -28,7 +28,7 @@ object ExpenseManager {
         when(readln().toIntOrNull()){
             1 -> editExpenseTransaction()
             2 -> deleteExpenseTransaction()
-            3 -> MenusManager.expensesMenu()
+            3 -> return
             null->println("Invalid Input try again")
             else -> println("Enter a valid number between 1 - 3")
         }
