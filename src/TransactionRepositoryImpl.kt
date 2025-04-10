@@ -6,14 +6,23 @@ class TransactionRepositoryImpl(
 
     override fun addTransaction(transaction: Transaction): Boolean {
         return try {
-            val newId = transactions.size + 1
+
+            if (transaction.amount < 0) {
+                println("Attention: Negative transaction amount found! ")
+            }
+
+
+            val newId = if (transactions.isEmpty()) 1 else transactions.maxOf { it.id } + 1
+
+
             val newTransaction = transaction.copy(id = newId)
+
+
             transactions.add(newTransaction)
-            println("Transaction added successfully")
+            println("Transaction added with ID: $newId")
             true
         } catch (e: Exception) {
-            val errorMessage = "something went wrong"
-            println("Error adding transaction: $errorMessage")
+            println("Error adding transaction: ${e.message ?: "something went wrong"}")
             false
         }
     }
