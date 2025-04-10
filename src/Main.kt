@@ -1,4 +1,4 @@
-import UI.runApp
+import ui.runApp
 
 fun main() {
     runApp()
