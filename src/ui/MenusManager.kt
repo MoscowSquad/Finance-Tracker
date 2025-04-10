@@ -2,7 +2,7 @@ package ui
 
 object MenusManager {
 
-    fun divider(menuName: String){
+    private fun divider(menuName: String){
         println("======== $menuName ========")
     }
 
