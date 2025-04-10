@@ -1,9 +1,9 @@
 package testCases
 
-import MonthlySummary
-import ReportRepositoryImpl
+import Category
 import Transaction
 import TransactionRepositoryImpl
+import TransactionType
 import java.time.LocalDateTime
 
 fun main() {
@@ -12,13 +12,7 @@ fun main() {
     check(
         testcase = "Add transaction case is valid return true",
         value = transactionRepository.addTransaction(
-            Transaction(
-                id = 0,
-                1000.0,
-                TransactionType.EXPENSE,
-                Category.Food,
-                LocalDateTime.now()
-            )
+            1000.0, category = Category.Food
         ),
         expected = true
     )
@@ -26,13 +20,7 @@ fun main() {
     check(
         testcase = "The amount value is zero return false",
         value = transactionRepository.addTransaction(
-            Transaction(
-                id = 0,
-                0.0,
-                TransactionType.EXPENSE,
-                Category.Food,
-                LocalDateTime.now()
-            )
+            0.0, Category.Food
         ),
         expected = false
     )
@@ -40,13 +28,7 @@ fun main() {
     check(
         testcase = "The amount value is negative return false",
         value = transactionRepository.addTransaction(
-            Transaction(
-                id = -1,
-                -10.0,
-                TransactionType.EXPENSE,
-                Category.Food,
-                LocalDateTime.now()
-            )
+            -10.0, Category.Food,
         ),
         expected = false
     )
@@ -54,41 +36,7 @@ fun main() {
     check(
         testcase = "The transaction-type is not the same as category-type value is negative return false",
         value = transactionRepository.addTransaction(
-            Transaction(
-                id = 0,
-                100.0,
-                TransactionType.EXPENSE,
-                Category.Salary,
-                LocalDateTime.now()
-            )
-        ),
-        expected = false
-    )
-
-    check(
-        testcase = "The transaction not added in the current date return false",
-        value = transactionRepository.addTransaction(
-            Transaction(
-                id = 0,
-                100.0,
-                TransactionType.EXPENSE,
-                Category.Salary,
-                LocalDateTime.parse("2024-03-03T10:15:30")
-            )
-        ),
-        expected = false
-    )
-
-    check(
-        testcase = "The transaction not added in the current date return false",
-        value = transactionRepository.addTransaction(
-            Transaction(
-                id = 0,
-                100.0,
-                TransactionType.EXPENSE,
-                Category.Salary,
-                LocalDateTime.parse("2125-03-03T10:15:30")
-            )
+            -100.0, Category.Salary
         ),
         expected = false
     )
@@ -97,14 +45,8 @@ fun main() {
     transactionRepository = TransactionRepositoryImpl(mutableListOf())
     check(
         testcase = "There is no transactions return false",
-        value = transactionRepository.editTransaction(
-            Transaction(
-                id = 1235,
-                1000.0,
-                TransactionType.EXPENSE,
-                Category.Food,
-                LocalDateTime.now()
-            )
+        value = transactionRepository.editTransactionAmount(
+            id = 1235, 1000.0
         ),
         expected = false
     )
@@ -143,66 +85,29 @@ fun main() {
     )
     check(
         testcase = "The transaction id not found return false",
-        value = transactionRepository.editTransaction(
-            Transaction(
-                id = 8776,
-                1000.0,
-                TransactionType.EXPENSE,
-                Category.Food,
-                LocalDateTime.now()
-            )
+        value = transactionRepository.editTransactionAmount(
+            id = 8776, 1000.0,
         ),
         expected = false
     )
     check(
         testcase = "The transaction id found return true",
-        value = transactionRepository.editTransaction(
-            Transaction(
-                id = 1235,
-                1000.0,
-                TransactionType.EXPENSE,
-                Category.Food,
-                LocalDateTime.now()
-            )
+        value = transactionRepository.editTransactionAmount(
+            id = 1235, 1000.0,
         ),
         expected = true
     )
     check(
         testcase = "The transaction id found but the value is zero return false",
-        value = transactionRepository.editTransaction(
-            Transaction(
-                id = 1235,
-                0.0,
-                TransactionType.EXPENSE,
-                Category.Food,
-                LocalDateTime.now()
-            )
+        value = transactionRepository.editTransactionAmount(
+            id = 1235, 0.0,
         ),
         expected = false
     )
     check(
         testcase = "The transaction id found but the value is negative return false",
-        value = transactionRepository.editTransaction(
-            Transaction(
-                id = 1235,
-                -13.0,
-                TransactionType.EXPENSE,
-                Category.Food,
-                LocalDateTime.now()
-            )
-        ),
-        expected = false
-    )
-    check(
-        testcase = "The transaction id found but the transaction-type is not the same as category-type return false",
-        value = transactionRepository.editTransaction(
-            Transaction(
-                id = 1235,
-                13.0,
-                TransactionType.INCOME,
-                Category.Food,
-                LocalDateTime.now()
-            )
+        value = transactionRepository.editTransactionAmount(
+            id = 1235, -13.0,
         ),
         expected = false
     )

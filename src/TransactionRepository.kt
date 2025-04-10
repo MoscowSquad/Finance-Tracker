@@ -1,8 +1,12 @@
 interface TransactionRepository {
 
-    fun addTransaction(transaction: Transaction): Boolean
+    fun addTransaction(amount: Double, category: Category): Boolean
 
-    fun editTransaction(transaction: Transaction): Boolean
+    fun editTransactionAmount(id: Int, amount: Double): Boolean
+
+    fun editTransactionCategory(id: Int, category: Category): Boolean
 
     fun deleteTransaction(id: Int): Boolean
+
+    fun findTransactionIndexById(id: Int): Int
 }
