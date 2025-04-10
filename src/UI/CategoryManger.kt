@@ -11,12 +11,13 @@ object CategoryManger {
 
         var newCategory: String = readln()
 
-        print("What is the category type? (i. Income | e. Expanses) :")
+        print("What is the category type? (1. Income | 2. Expanses) :")
 
-        when(readln().lowercase()){
-            "i" -> categoryType = "income"
-            "e" -> categoryType = "expanses"
-            else -> println("Valid Input try again")
+        when(readln().toIntOrNull()){
+            1 -> categoryType = "income"
+            2 -> categoryType = "expanses"
+            null -> println("Invalid Input try again")
+            else -> println("Enter a valid number between 1 - 2")
         }
 
         // add category with by using newCategory & categoryType
