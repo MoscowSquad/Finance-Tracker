@@ -1,9 +1,8 @@
 package file
 
 import Transaction
-import java.io.File
 
-class TransactionRetrieverFileImpl( storagePath: String = "data/transactions.csv") :
+class `TransactionFileReader Impl`(storagePath: String = "data/transactions.csv") :
     BaseTransactionManager(storagePath),TransactionRetrieverFile  {
 
 
