@@ -12,13 +12,14 @@ object MenusManager {
                     "4- View transaction\n" + //done
                     "5- Exit\n" +
                     "Enter Your option: ")
-            when (readln()) {
-                "1" -> incomeMenu()
-                "2" -> expensesMenu()
-                "3" -> categoriesMenu()
-                "4" -> viewTransactionMenu()
-                "5" -> break
-                else -> println("Valid Input try again")
+            when (readln().toIntOrNull()) {
+                1 -> incomeMenu()
+                2 -> expensesMenu()
+                3 -> categoriesMenu()
+                4 -> viewTransactionMenu()
+                5 -> break
+                null -> println("Invalid Input try again")
+                else -> println("Enter a valid number between 1 - 5")
             }
         }
     }
