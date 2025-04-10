@@ -2,7 +2,7 @@ package file
 
 import Transaction
 
-class `TransactionFileReader Impl`(storagePath: String = "data/transactions.csv") :
+class TransactionFileReaderImpl(storagePath: String = "data/transactions.csv") :
     BaseTransactionManager(storagePath),TransactionRetrieverFile  {
 
 
