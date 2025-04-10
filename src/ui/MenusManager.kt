@@ -2,6 +2,9 @@ package ui
 
 object MenusManager {
 
+    fun divider(menuName: String){
+        println("======== $menuName ========")
+    }
 
     fun startMenu(){
         while (true){
@@ -26,10 +29,9 @@ object MenusManager {
 
     fun expensesMenu() {
         while (true){
-            print(
-                "---------------------------\n" +
-                        "Expense Menu\n" +
-                        "1- Add expense\n" + //done
+            divider("Expenses Menu")
+
+            print("1- Add expense\n" + //done
                         "2- View expense transaction\n" + // done
                         "3- Back\n" +
                         "Enter Your option: "
@@ -46,8 +48,8 @@ object MenusManager {
 
     fun incomeMenu() {
         while (true){
-            print("---------------------------\n" +
-                    "Income Menu\n" +
+            divider("Income Menu")
+            print(
                     "1- Add Income\n" + //done
                     "2- View income transaction\n" + // done
                     "3- Back\n" +
@@ -65,8 +67,8 @@ object MenusManager {
 
     fun categoriesMenu() {
         while (true){
-            print("---------------------------\n" +
-                    "Categories Menu\n" +
+            divider("Categories Menu")
+            print(
                     "Here is all the Categories:\n")
 
             // view all Categories
@@ -88,7 +90,8 @@ object MenusManager {
     }
 
     fun viewTransactionMenu() {
-        print("---------------------------\n" +
+        divider("View Transaction Menu")
+        print(
                 "OK, here is your monthly report:\n")
         // call view function
         print("Do you want to show transactions (1. YES | 2. NO): ")
