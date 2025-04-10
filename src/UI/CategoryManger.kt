@@ -59,16 +59,18 @@ object CategoryManger {
                 "Enter Category ID: ")
         var editCategoryByID: Int = readln().toInt()
         // this category exist ?? return true | false
-        print("Are you sure you want to delete category No.$editCategoryByID (y | n): ")
-        when(readln().lowercase()){
-            "y" -> {
+        print("Are you sure you want to delete category No.$editCategoryByID (1. YES | 2. NO): ")
+        when(readln().toIntOrNull()){
+            1 -> {
                 println("the Category ${editCategoryByID} is deleted")
                 // call delete function
             }
-            "n" -> {
+            2 -> {
                 println("Process canceled")
                 MenusManager.categoriesMenu()
             }
+            null -> println("Invalid Input try again")
+            else -> println("Enter a valid number between 1 - 2")
         }
     }
 
