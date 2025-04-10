@@ -25,11 +25,12 @@ object ExpenseManager {
                 "2. Delete\n" + // done
                 "3. Back\n" +
                 "Enter Your option: ")
-        when(readln()){
-            "1" -> editExpenseTransaction()
-            "2" -> deleteExpenseTransaction()
-            "3" -> MenusManager.expensesMenu()
-            else -> println("Valid Input try again")
+        when(readln().toIntOrNull()){
+            1 -> editExpenseTransaction()
+            2 -> deleteExpenseTransaction()
+            3 -> MenusManager.expensesMenu()
+            null->println("Invalid Input try again")
+            else -> println("Enter a valid number between 1 - 3")
         }
     }
 
@@ -46,18 +47,20 @@ object ExpenseManager {
         print("Enter Transaction ID: ")
         var editExpenseTransactionID: Int = readln().toInt()
         print("What do you want to edit (1. amount 2. category): ")
-        when(readln()){
-            "1" -> {
+        when(readln().toIntOrNull()){
+            1 -> {
                 print("Enter New Amount: ")
                 editExpenseTransactionAmount = readln().toDouble()
                 // pass to function and update
                 println("updated")
             }
-            "2" -> {
+            2 -> {
                 print("Chose expense Category\n")
                 // view expense category
                 println("updated")
             }
+            null->println("Invalid Input try again")
+            else -> println("Enter a valid number 1 or 2")
         }
     }
 

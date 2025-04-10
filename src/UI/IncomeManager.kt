@@ -30,11 +30,12 @@ object IncomeManager {
                 "2. Delete\n" + // done
                 "3. Back\n" +
                 "Enter Your option: ")
-        when(readln()){
-            "1" -> editIncomeTransaction()
-            "2" -> deleteIncomeTransaction()
-            "3" -> MenusManager.incomeMenu()
-            else -> println("Valid Input try again")
+        when(readln().toIntOrNull()){
+            1 -> editIncomeTransaction()
+            2 -> deleteIncomeTransaction()
+            3 -> MenusManager.incomeMenu()
+            null->println("Invalid Input try again")
+            else -> println("Enter a valid number between 1 - 5")
         }
     }
 
@@ -51,18 +52,20 @@ object IncomeManager {
         print("Enter Transaction ID: ")
         var editIncomeTransactionID: Int = readln().toInt()
         print("What do you want to edit (1. amount 2. category): ")
-        when(readln()){
-            "1" -> {
+        when(readln().toIntOrNull()){
+            1 -> {
                 print("Enter New Amount: ")
                 editIncomeTransactionAmount = readln().toDouble()
                 // pass to function and update
                 println("updated")
             }
-            "2" -> {
+            2 -> {
                 print("Chose income Category\n")
                 // view income category
                 println("updated")
             }
+            null->println("Invalid Input try again")
+            else -> println("Enter a valid number 1 or 2")
         }
     }
 
