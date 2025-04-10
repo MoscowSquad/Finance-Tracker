@@ -34,11 +34,12 @@ object MenusManager {
                         "3- Back\n" +
                         "Enter Your option: "
             )
-            when (readln()) {
-                "1" -> ExpenseManager.addExpenseMenu()
-                "2" -> ExpenseManager.viewExpenseTransaction()
-                "3" -> return
-                else -> println("Valid Input try again")
+            when (readln().toIntOrNull()) {
+                1 -> ExpenseManager.addExpenseMenu()
+                2 -> ExpenseManager.viewExpenseTransaction()
+                3 -> return
+                null -> println("Invalid Input try again")
+                else -> println("Enter a valid number between 1 - 3")
             }
         }
     }
