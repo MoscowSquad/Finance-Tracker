@@ -33,7 +33,7 @@ object IncomeManager {
         when(readln().toIntOrNull()){
             1 -> editIncomeTransaction()
             2 -> deleteIncomeTransaction()
-            3 -> MenusManager.incomeMenu()
+            3 -> return
             null->println("Invalid Input try again")
             else -> println("Enter a valid number between 1 - 5")
         }
