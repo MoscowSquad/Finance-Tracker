@@ -15,10 +15,17 @@ class TransactionFileReaderImpl(storagePath: String = "data/transactions.csv") :
     }
 
     override fun getMonthlyTransactions(month: Int): List<Transaction> {
-        return transactions
-            .filter { it.date.monthValue == month }
-            .sortedByDescending { it.date }
+        return sortByDateDesc(filterByMonth(month))
     }
+
+    private fun filterByMonth(month: Int): List<Transaction> {
+        return transactions.filter { it.date.monthValue == month }
+    }
+
+    private fun sortByDateDesc(list: List<Transaction>): List<Transaction> {
+        return list.sortedByDescending { it.date }
+    }
+
 
 }
 
