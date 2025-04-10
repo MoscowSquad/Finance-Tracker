@@ -1,6 +1,6 @@
 data class MonthlySummary(
-    val totalIncome: Double,
-    val totalExpense: Double,
+    val totalIncomes: Double,
+    val totalExpenses: Double,
     val balance: Double
 )
 
