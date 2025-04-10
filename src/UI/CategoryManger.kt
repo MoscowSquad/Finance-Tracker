@@ -34,19 +34,21 @@ object CategoryManger {
         // this category exist ?? return true or false
 
         print("What do you want to edit (1 .name | 2. type): ")
-        when(readln()){
-            "1" ->  {
+        when(readln().toIntOrNull()){
+            1 ->  {
                 print("Enter Category Name: ")
                 editCategoryString = readln().toString()
                 // pass this to edit function
                 println("updated")
             }
-            "2" -> {
+            2 -> {
                 print("Enter Category Type: ")
                 editCategoryString = readln().toString()
                 // pass this to edit function
                 println("updated")
             }
+            null -> println("Invalid Input try again")
+            else -> println("Enter a valid number between 1 - 2")
         }
     }
 
