@@ -1,7 +1,7 @@
 import java.time.LocalDateTime
 
 data class Transaction(
-    val id: Int,
+    var id: Int,
     val amount: Double,
     val type: TransactionType,
     val category: Category,
