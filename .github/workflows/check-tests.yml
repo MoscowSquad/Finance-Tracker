@@ -1,45 +1,38 @@
-# This is a basic workflow to help you get started with Actions
 name: Run Kotlin Check Tests
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" and "development" branch
   push:
     branches: [ "main", "development" ]
   pull_request:
     branches: [ "main", "development" ]
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout code
         uses: actions/checkout@v4
-
-
       - name: Set up Java (for Kotlin)
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '19'
-
+          java-version: '17'
       - name: Install Latest Kotlin Compiler
         run: |
           curl -s https://get.sdkman.io | bash
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin
-
       - name: Compile Kotlin files
-        run: |    
-          mkdir -p out
-          find . -name "*.kt" > sources.txt
-          kotlinc @sources.txt -include-runtime -d out/TestRunner.jar
-
+        run: |
+          mkdir -p out/classes
+          find src -name "*.kt" > sources.txt
+          kotlinc @sources.txt -include-runtime -d out/classes
+      - name: Create Manifest File
+        run: |
+          echo "Manifest-Version: 1.0" > MANIFEST.MF
+          echo "Main-Class: MainKt" >> MANIFEST.MF
+      - name: Package Executable JAR
+        run: |
+          jar cfm out/TestRunner.jar MANIFEST.MF -C out/classes .
       - name: Run Tests and Fail on "Failed"
         run: |
           set -o pipefail
