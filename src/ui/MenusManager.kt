@@ -81,7 +81,7 @@ object MenusManager {
         when(readln().toIntOrNull()){
             1 -> {
                 print("OK, here is your monthly report:\n")
-                println(reportRepository.prepareMonthlySummary(transactions = transactionRepository.getAllTransactions()))
+                println(reportRepository.prepareTransactionSummary(transactions = transactionRepository.getAllTransactions()))
             }
             2 -> {
                 print("OK, here is your report:\n")
