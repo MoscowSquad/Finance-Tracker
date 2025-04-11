@@ -1,12 +1,14 @@
 package ui
 
 import Category
+import TransactionRepository
+import TransactionType
+
 
 object IncomeManager {
 
 
     fun addIncomeMenu(addTransaction: (Double, Category) -> Boolean) {
-
         print(
             "---------------------------\n" +
                     "Lets add income\n" +
@@ -19,21 +21,21 @@ object IncomeManager {
             println("${index + 1}. $item")
         }
         val category: Category = incomeCategories[readln().toInt() - 1]
-        print(addTransaction(incomeAmount, category))
-        // print Income Category
-
-        // pass to add income function
-        println("Income added successfully")
-
+        if (addTransaction(
+                incomeAmount,
+                category
+            )
+        ) println("Income added successfully") else println("Unexpected Error happened while incoming")
     }
 
 
-    fun viewIncomeTransaction() {
+    fun viewIncomeTransaction(transactionRepository: TransactionRepository) {
         print(
             "---------------------------\n" +
                     "Here is all the income\n"
         )
-        // call view income function
+        val incomeTransactionDetails = transactionRepository.getTransactionsDetails(TransactionType.INCOME)
+        println(incomeTransactionDetails)
         print(
             "What do you want to do?\n" +
                     "1. Edit\n" + // done
@@ -42,8 +44,8 @@ object IncomeManager {
                     "Enter Your option: "
         )
         when (readln().toIntOrNull()) {
-            1 -> editIncomeTransaction()
-            2 -> deleteIncomeTransaction()
+            1 -> editIncomeTransaction(transactionRepository)
+            2 -> deleteIncomeTransaction(transactionRepository)
             3 -> return
             null -> println("Invalid Input try again")
             else -> println("Enter a valid number between 1 - 5")
@@ -51,30 +53,38 @@ object IncomeManager {
     }
 
 
-    fun deleteIncomeTransaction() {
+    fun deleteIncomeTransaction(transactionRepository: TransactionRepository) {
         print("Enter Transaction ID: ")
-        var deleteIncomeTransactionId: Int = readln().toInt()
-        // this Transaction exist ??
-        // call delete fun
+        val transactionId: Int = readln().toInt()
+        val isTransactionDeleted = transactionRepository.deleteTransaction(transactionId)
+        if(isTransactionDeleted) println("Transaction Deleted Successfully") else println("Unexpected Error happened while deleting")
     }
 
-    fun editIncomeTransaction() {
-        var editIncomeTransactionAmount: Double
+    fun editIncomeTransaction(transactionRepository: TransactionRepository) {
         print("Enter Transaction ID: ")
-        var editIncomeTransactionID: Int = readln().toInt()
-        print("What do you want to edit (1. amount 2. category): ")
+        val transactionId: Int = readln().toInt()
+        println("What do you want to edit?\n1. Amount\n2. category")
         when (readln().toIntOrNull()) {
             1 -> {
                 print("Enter New Amount: ")
-                editIncomeTransactionAmount = readln().toDouble()
-                // pass to function and update
-                println("updated")
+                val amount: Double = readln().toDouble()
+                val editTransactionAmount = transactionRepository.editTransactionAmount(transactionId, amount)
+                if (editTransactionAmount)
+                    println("Amount Updated Successfully") else println("Unexpected Error happened while editing")
             }
 
             2 -> {
-                print("Chose income Category\n")
-                // view income category
-                println("updated")
+                print("Choose income Category\n")
+                val incomeCategories = Category.entries.filter { it.type == TransactionType.INCOME }
+                incomeCategories.forEachIndexed { index, category ->
+                    println("${index + 1}. $category")
+                }
+                print("Enter Category Number: ")
+                val incomeIndex = readln().toInt()
+                val editTransactionCategory =
+                    transactionRepository.editTransactionCategory(transactionId, incomeCategories[incomeIndex - 1])
+                if (editTransactionCategory)
+                    println("Category Changed Successfully") else println("Unexpected Error happened while editing")
             }
 
             null -> println("Invalid Input try again")

@@ -2,6 +2,7 @@ package ui
 
 import ReportRepository
 import TransactionRepository
+import file.UserManager
 
 object MenusManager {
 
@@ -9,21 +10,28 @@ object MenusManager {
         println("======== $menuName ========")
     }
 
-    fun startMenu(transactionRepository: TransactionRepository) {
+    fun startMenu(
+        transactionRepository: TransactionRepository,
+        reportRepository: ReportRepository,
+        userManager: UserManager
+    ) {
+        if (!userManager.hasUser()) {
+            print("Enter your name: ")
+            userManager.registerUser(readln())
+        }
+        println("Hello, ${userManager.userName}")
         while (true){
             print("Welcome to PFT, How i can help you today\n" +
                     "1- Income\n" + // done
                     "2- Expenses\n" +
-                    "3- Categories\n" + // done
-                    "4- View transaction\n" + //done
-                    "5- Exit\n" +
+                    "3- View transaction\n" + //done
+                    "4- Exit\n" +
                     "Enter Your option: ")
             when (readln().toIntOrNull()) {
                 1 -> incomeMenu(transactionRepository)
                 2 -> expensesMenu(transactionRepository)
-                3 -> categoriesMenu()
-                4 -> viewTransactionMenu()
-                5 -> break
+                3 -> viewTransactionMenu(transactionRepository, reportRepository)
+                4 -> break
                 null -> println("Invalid Input try again")
                 else -> println("Enter a valid number between 1 - 5")
             }
@@ -40,8 +48,8 @@ object MenusManager {
                         "Enter Your option: "
             )
             when (readln().toIntOrNull()) {
-                1 -> ExpenseManager.addExpenseMenu()
-                2 -> ExpenseManager.viewExpenseTransaction()
+                1 -> ExpenseManager.addExpenseMenu(transactionRepository::addTransaction)
+                2 -> ExpenseManager.viewExpenseTransaction(transactionRepository)
                 3 -> return
                 null -> println("Invalid Input try again")
                 else -> println("Enter a valid number between 1 - 3")
@@ -59,7 +67,7 @@ object MenusManager {
                     "Enter Your option: ")
             when(readln().toIntOrNull()){
                 1 -> IncomeManager.addIncomeMenu(transactionRepository::addTransaction)
-                2 -> IncomeManager.viewIncomeTransaction()
+                2 -> IncomeManager.viewIncomeTransaction(transactionRepository)
                 3 -> return
                 null -> println("Invalid Input try again")
                 else -> println("Enter a valid number between 1 - 3")
@@ -67,41 +75,18 @@ object MenusManager {
         }
     }
 
-
-    fun categoriesMenu() {
-        while (true){
-            divider("Categories Menu")
-            print(
-                    "Here is all the Categories:\n")
-
-            // view all Categories
-            print("What do you want to do?\n" +
-                    "1. Add\n" + // done
-                    "2. Edit\n" + // done
-                    "3. Delete\n" +// done
-                    "4. Back\n" +// done
-                    "Enter Your Option: ")
-            when (readln().toIntOrNull()){
-                1 -> CategoryManger.addCategory()
-                2 -> CategoryManger.editCategory()
-                3 -> CategoryManger.deleteCategory()
-                4 -> return
-                null -> println("Invalid Input try again")
-                else -> println("Enter a valid number between 1 - 4")
-            }
-        }
-    }
-
-    fun viewTransactionMenu() {
+    fun viewTransactionMenu(transactionRepository: TransactionRepository, reportRepository: ReportRepository) {
         divider("View Transaction Menu")
-        print("OK, here is your monthly report:\n")
-        // call view function
-        print("Do you want to show transactions (1. YES | 2. NO): ")
+        print("Choose report type: \n1.Monthly Transactions \n2.All Transactions\nEnter your option: ")
         when(readln().toIntOrNull()){
             1 -> {
-                println("Here is the transactions done this month: ")
+                print("OK, here is your monthly report:\n")
+                println(reportRepository.prepareMonthlySummary(transactions = transactionRepository.getAllTransactions()))
             }
-            2 -> return
+            2 -> {
+                print("OK, here is your report:\n")
+                println(transactionRepository.getAllTransactions())
+            }
         }
     }
 
