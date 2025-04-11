@@ -13,13 +13,12 @@ fun main() {
     val transactions = fileTransactionManager.getAllTransactions()
 
     val transactionRepository: TransactionRepository = TransactionRepositoryImpl(transactions = transactions.toMutableList())
-    val reportRepository: ReportRepository = ReportRepositoryImpl(transactions = transactionRepository.getAllTransaction())
 
     Runtime.getRuntime().addShutdownHook(Thread {
-        fileTransactionManager.addAllTransactions(transactionRepository.getAllTransaction(), username)
+
     })
 
-    runApp(transactionRepository, reportRepository)
+    runApp(transactionRepository)
 
     exitProcess(0)
 }

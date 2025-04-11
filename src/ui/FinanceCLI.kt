@@ -3,6 +3,6 @@ package ui
 import ReportRepository
 import TransactionRepository
 
-fun runApp(transactionRepository: TransactionRepository, reportRepository: ReportRepository){
-    MenusManager.startMenu(transactionRepository, reportRepository)
+fun runApp(transactionRepository: TransactionRepository){
+    MenusManager.startMenu(transactionRepository)
 }

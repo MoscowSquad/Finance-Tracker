@@ -100,7 +100,10 @@ object MenusManager {
         when(readln().toIntOrNull()){
             1 -> {
                 println("Here is the transactions done this month: ")
-                print(reportRepository.prepareMonthlySummary())
+                print(reportRepository.prepareMonthlySummary(
+                    transactions = TODO(),
+                    month = TODO()
+                ))
             }
             2 -> return
         }
