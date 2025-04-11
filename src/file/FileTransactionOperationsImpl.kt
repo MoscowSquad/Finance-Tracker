@@ -3,7 +3,7 @@ package file
 import Transaction
 import java.io.File
 
-class FileTransactionManager(
+class FileTransactionOperationsImpl(
     private val storageOperation: StorageOperation,
     private val storagePath: String = "data/transactions.csv",
     private var userManager: UserManager?
@@ -13,7 +13,9 @@ class FileTransactionManager(
     init {
         val file = File(storagePath)
         file.parentFile?.mkdirs()
-        val (loadedTransactions, loadedUserName) = StorageOperationManager.loadFromFile(storagePath)
+        val operationManager=StorageOperationImpl
+        val loadedTransactions = operationManager.loadTransactionFromFile(storagePath)
+        val loadedUserName = operationManager.loadNameFromFile(storagePath)
         transactions.addAll(loadedTransactions)
         userManager = loadedUserName?.let { UserManager(
 
