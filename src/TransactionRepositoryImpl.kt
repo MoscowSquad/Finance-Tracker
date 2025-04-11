@@ -1,4 +1,5 @@
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class TransactionRepositoryImpl(
     private val transactions: MutableList<Transaction>
@@ -56,16 +57,42 @@ class TransactionRepositoryImpl(
         return transactions.indexOfFirst { it.id == id }
     }
 
-    override fun getTransactionsDetail(): String {
-        var str = ""
-        transactions.forEach { transaction ->
-            val categoryStr = when (transaction.category) {
-                Category.Food -> "Food"
-                Category.Salary -> "Salary"
+
+    override fun getTransactionsDetails(transactionType: TransactionType): String {
+        val filteredTransactions = transactions.filter { it.type == transactionType }
+
+        if (filteredTransactions.isEmpty()) return "No ${transactionType.name.lowercase()} transactions found."
+
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")
+
+        val result = buildString {
+            appendLine("ID   | Type   | Amount   | Date & Time       | Category")
+            appendLine("---------------------------------------------------------------")
+            filteredTransactions.forEach { transaction ->
+                val categoryStr = when (transaction.category) {
+                    Category.Food -> "Food"
+                    Category.Salary -> "Salary"
+                    Category.Transportation -> "Transportation"
+                    Category.Rent -> "Rent"
+                    Category.Freelance -> "Freelance"
+                    Category.Investing -> "Investing"
+                }
+                val typeSymbol = if (transaction.type == TransactionType.INCOME) "Income" else "Expense"
+                val formattedDateTime = transaction.date.format(formatter)
+                appendLine(
+                    "%-4s | %-6s | %-8.2f | %-17s | %s".format(
+                        transaction.id,
+                        typeSymbol,
+                        transaction.amount,
+                        formattedDateTime,
+                        categoryStr
+                    )
+                )
             }
-            val typeSymbol = if (transaction.type == TransactionType.INCOME) "++" else "--"
-            str += "$typeSymbol${transaction.amount} ${transaction.date} :$categoryStr\n"
         }
-        return str
+
+        return result
     }
+
+    override fun getAllTransactions(): List<Transaction> = transactions
 }
