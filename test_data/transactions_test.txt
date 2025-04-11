@@ -1,3 +1,0 @@
-User: Unknown
-id,amount,type,category,date
-1,100.0,EXPENSE,Food,2025-04-11 00:00:00
