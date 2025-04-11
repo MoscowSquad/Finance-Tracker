@@ -2,9 +2,11 @@ package ui
 
 import ReportRepository
 import TransactionRepository
+import TransactionType
 import file.UserManager
 
-object MenusManager {
+class MenusManager {
+    private val transactionProcessor=TransactionProcessor()
 
     private fun divider(menuName: String){
         println("======== $menuName ========")
@@ -48,8 +50,8 @@ object MenusManager {
                         "Enter Your option: "
             )
             when (readln().toIntOrNull()) {
-                1 -> ExpenseManager.addExpenseMenu(transactionRepository::addTransaction)
-                2 -> ExpenseManager.viewExpenseTransaction(transactionRepository)
+                1 -> transactionProcessor.addTransactionMenu(transactionRepository::addTransaction,TransactionType.EXPENSE)
+                2 -> transactionProcessor.viewTransaction(transactionRepository,TransactionType.EXPENSE)
                 3 -> return
                 null -> println("Invalid Input try again")
                 else -> println("Enter a valid number between 1 - 3")
@@ -66,8 +68,8 @@ object MenusManager {
                     "3- Back\n" +
                     "Enter Your option: ")
             when(readln().toIntOrNull()){
-                1 -> IncomeManager.addIncomeMenu(transactionRepository::addTransaction)
-                2 -> IncomeManager.viewIncomeTransaction(transactionRepository)
+                1 -> transactionProcessor.addTransactionMenu(transactionRepository::addTransaction,TransactionType.INCOME)
+                2 -> transactionProcessor.viewTransaction(transactionRepository,TransactionType.INCOME)
                 3 -> return
                 null -> println("Invalid Input try again")
                 else -> println("Enter a valid number between 1 - 3")

@@ -5,5 +5,6 @@ import TransactionRepository
 import file.UserManager
 
 fun runApp(transactionRepository: TransactionRepository, reportRepository: ReportRepository,  userManager: UserManager){
-    MenusManager.startMenu(transactionRepository, reportRepository,  userManager)
+    val menusManager =MenusManager()
+    menusManager.startMenu(transactionRepository, reportRepository,  userManager)
 }

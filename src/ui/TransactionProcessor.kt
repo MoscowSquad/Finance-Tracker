@@ -4,38 +4,35 @@ import Category
 import TransactionRepository
 import TransactionType
 
-
-object IncomeManager {
-
-
-    fun addIncomeMenu(addTransaction: (Double, Category) -> Boolean) {
+class TransactionProcessor {
+    fun addTransactionMenu(addTransaction: (Double, Category) -> Boolean, type:TransactionType) {
         print(
             "---------------------------\n" +
-                    "Lets add income\n" +
+                    "Lets add $type\n" +
                     "Enter Amount: "
         )
-        val incomeAmount: Double = readln().toDouble()
-        print("Choose Income Category\n")
-        val incomeCategories = Category.entries.filter { it.type == TransactionType.INCOME }
+        val transactionAmount: Double = readln().toDouble()
+        print("Choose $type Category\n")
+        val incomeCategories = Category.entries.filter { it.type == type }
         incomeCategories.forEachIndexed { index, item ->
             println("${index + 1}. $item")
         }
         val category: Category = incomeCategories[readln().toInt() - 1]
         if (addTransaction(
-                incomeAmount,
+                transactionAmount,
                 category
             )
         ) println("Income added successfully") else println("Unexpected Error happened while incoming")
     }
 
 
-    fun viewIncomeTransaction(transactionRepository: TransactionRepository) {
+    fun viewTransaction(transactionRepository: TransactionRepository, type:TransactionType) {
         print(
             "---------------------------\n" +
-                    "Here is all the income\n"
+                    "Here is all the ${type}s\n"
         )
-        val incomeTransactionDetails = transactionRepository.getTransactionsDetails(TransactionType.INCOME)
-        println(incomeTransactionDetails)
+        val expenseTransactionDetails = transactionRepository.getTransactionsDetails(type)
+        println(expenseTransactionDetails)
         print(
             "What do you want to do?\n" +
                     "1. Edit\n" + // done
@@ -44,23 +41,26 @@ object IncomeManager {
                     "Enter Your option: "
         )
         when (readln().toIntOrNull()) {
-            1 -> editIncomeTransaction(transactionRepository)
-            2 -> deleteIncomeTransaction(transactionRepository)
+            1 -> editTransaction(transactionRepository,type)
+            2 -> editTransaction(transactionRepository,type)
             3 -> return
             null -> println("Invalid Input try again")
-            else -> println("Enter a valid number between 1 - 5")
+            else -> println("Enter a valid number between 1 - 3")
         }
+
+
     }
 
 
-    fun deleteIncomeTransaction(transactionRepository: TransactionRepository) {
+
+    fun deleteTransaction(transactionRepository: TransactionRepository) {
         print("Enter Transaction ID: ")
         val transactionId: Int = readln().toInt()
         val isTransactionDeleted = transactionRepository.deleteTransaction(transactionId)
         if(isTransactionDeleted) println("Transaction Deleted Successfully") else println("Unexpected Error happened while deleting")
     }
 
-    fun editIncomeTransaction(transactionRepository: TransactionRepository) {
+    fun editTransaction(transactionRepository: TransactionRepository, type:TransactionType) {
         print("Enter Transaction ID: ")
         val transactionId: Int = readln().toInt()
         println("What do you want to edit?\n1. Amount\n2. category")
@@ -74,15 +74,15 @@ object IncomeManager {
             }
 
             2 -> {
-                print("Choose income Category\n")
-                val incomeCategories = Category.entries.filter { it.type == TransactionType.INCOME }
+                print("Choose $type Category\n")
+                val incomeCategories = Category.entries.filter {type== TransactionType.INCOME }
                 incomeCategories.forEachIndexed { index, category ->
                     println("${index + 1}. $category")
                 }
                 print("Enter Category Number: ")
-                val incomeIndex = readln().toInt()
+                val transactionIndex = readln().toInt()
                 val editTransactionCategory =
-                    transactionRepository.editTransactionCategory(transactionId, incomeCategories[incomeIndex - 1])
+                    transactionRepository.editTransactionCategory(transactionId, incomeCategories[transactionIndex - 1])
                 if (editTransactionCategory)
                     println("Category Changed Successfully") else println("Unexpected Error happened while editing")
             }
@@ -91,6 +91,5 @@ object IncomeManager {
             else -> println("Enter a valid number 1 or 2")
         }
     }
-
 
 }
