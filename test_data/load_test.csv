@@ -1,0 +1,4 @@
+User: Test
+id,amount,type,category,date
+this,is,not,a,valid,line
+3,100.0,EXPENSE,Food,2025-04-11 14:00:00
