@@ -4,7 +4,7 @@ import Transaction
 import java.io.File
 
 open class BaseTransactionManager(protected val storagePath: String) {
-    val transactions = mutableListOf<Transaction>()
+    protected val transactions = mutableListOf<Transaction>()
     private var userName: String? = null
 
     init {
@@ -20,20 +20,16 @@ open class BaseTransactionManager(protected val storagePath: String) {
     }
 
 
-    fun addUserName(name: String?) {
-        if (userName != null) {
-            println("User name already exists: $userName")
+    fun addUserName(name:String) {
+        if (name != null) {
+            println("User name already exists: $name")
             return
         }
-
-        val inputName = name ?: run {
-            println("No user found. Please enter your name:")
-            val userInput = readlnOrNull() ?: ""
-            if (userInput.isBlank()) "Unknown" else userInput
-        }
-
-        userName = inputName
+        println("No user found. Please enter your name:")
+        val inputName = readln() ?: ""
+        userName = if (inputName.isBlank()) "Unknown" else inputName
         StorageManager.saveToFile(transactions, storagePath, userName)
+        println("Hello, $userName! Your name has been saved.")
     }
 
     open fun addTransaction(transaction: Transaction) {
