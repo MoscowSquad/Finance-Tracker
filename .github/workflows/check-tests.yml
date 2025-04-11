@@ -38,11 +38,20 @@ jobs:
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin
           
-      - name: Compile Kotlin files
+      - name: Compile Kotlin files and create executable jar
         run: |
-          mkdir -p out
+          mkdir -p out/classes
+
+          # Compile all .kt files to class files
           find . -name "*.kt" > sources.txt
-          kotlinc @sources.txt -include-runtime -d out/TestRunner.jar
+          kotlinc @sources.txt -d out/classes
+
+          # Create a manifest file with the correct main class
+          echo "Main-Class: MainKt" > out/manifest.txt
+
+          # Build the executable JAR with the manifest
+          jar cfm out/TestRunner.jar out/manifest.txt -C out/classes .
+
 
       - name: Run Tests and Fail on "Failed"
         run: |
@@ -50,5 +59,3 @@ jobs:
           OUTPUT=$(kotlin out/TestRunner.jar | tee output.log)
           echo "$OUTPUT"
           echo "$OUTPUT" | grep -q "Failed" && exit 1 || echo "All tests passed"
-
-
