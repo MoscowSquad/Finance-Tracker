@@ -7,9 +7,9 @@ class ReportRepositoryImpl : ReportRepository {
         transactions.forEach { transaction ->
             if (month == null || transaction.date.month == month) {
                 if (transaction.type == TransactionType.INCOME)
-                    totalIncomes = transaction.amount
+                    totalIncomes += transaction.amount
                 if (transaction.type == TransactionType.EXPENSE)
-                    totalExpenses = transaction.amount
+                    totalExpenses += transaction.amount
             }
         }
 
