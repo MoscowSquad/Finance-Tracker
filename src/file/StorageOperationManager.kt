@@ -34,46 +34,42 @@ object StorageOperationManager : StorageOperation {
 
 
     override fun loadFromFile(storagePath: String): Pair<List<Transaction>, String?> {
-        try {
+        return try {
             val file = File(storagePath)
-            if (file.exists()) {
-                val lines = file.readLines()
-                val userName = if (lines[0].startsWith("User: ")) {
-                    lines[0].removePrefix("User: ").trim()
-                } else {
-                    null
-                }
-                val headerIndex = lines.indexOfFirst { it == TRANSACTION_HEADER }
-
-                if (headerIndex == -1) {
-                    return Pair(emptyList(), userName)
-                }
-
-                val transactionLines = lines.drop(headerIndex + 1)
-                val loadedTransactions = transactionLines.mapNotNull { line ->
-                    try {
-                        val parts = line.split(",")
-                        if (parts.size == 5) {
-                            Transaction(
-                                id = parts[0].toInt(),
-                                amount = parts[1].toDouble(),
-                                type = TransactionType.valueOf(parts[2]),
-                                category = Category.valueOf(parts[3]),
-                                date = LocalDateTime.parse(parts[4], formatter)
-                            )
-                        } else {
-                            null
-                        }
-                    } catch (e: Exception) {
-                        null
-                    }
-                }
-                return Pair(loadedTransactions, userName)
-            } else {
-                return Pair(emptyList(), null)
+            if (!file.exists()) return Pair(emptyList(), null)
+            val lines = file.readLines()
+            val userName = lines.firstOrNull { it.startsWith("User: ") }?.removePrefix("User: ")?.trim()
+            val headerIndex = lines.indexOfFirst { it == TRANSACTION_HEADER }
+            if (headerIndex == -1) return Pair(emptyList(), userName)
+            val transactionLines = lines.drop(headerIndex + 1)
+            val loadedTransactions = transactionLines.mapNotNull { line ->
+                parseTransaction(line)
             }
+            Pair(loadedTransactions, userName)
         } catch (e: Exception) {
-            return Pair(emptyList(), null)
+            Pair(emptyList(), null)
         }
     }
+
+
+    private fun parseTransaction(line: String): Transaction? {
+        return try {
+            val parts = line.split(",")
+            if (parts.size == 5) {
+                Transaction(
+                    id = parts[0].toInt(),
+                    amount = parts[1].toDouble(),
+                    type = TransactionType.valueOf(parts[2]),
+                    category = Category.valueOf(parts[3]),
+                    date = LocalDateTime.parse(parts[4], formatter)
+                )
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+
 }
