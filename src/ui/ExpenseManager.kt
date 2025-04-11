@@ -7,6 +7,7 @@ object ExpenseManager {
         print("---------------------------\n" +
                 "Lets add Expense\n" +
                 "Enter Amount: ")
+
         var expenseAmount: Double = readln().toDouble()
         println("your transaction added successfully ")
         print("Chose Expense Category\n")

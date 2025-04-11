@@ -61,4 +61,8 @@ class TransactionRepositoryImpl(
             return -1
         return transactions.indexOfFirst { it.id == id }
     }
+
+    override fun getAllTransaction(): List<Transaction> {
+        return transactions
+    }
 }

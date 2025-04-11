@@ -1,5 +1,8 @@
 package ui
 
-fun runApp(){
-    MenusManager.startMenu()
+import ReportRepository
+import TransactionRepository
+
+fun runApp(transactionRepository: TransactionRepository, reportRepository: ReportRepository){
+    MenusManager.startMenu(transactionRepository, reportRepository)
 }

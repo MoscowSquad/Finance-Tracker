@@ -9,4 +9,6 @@ interface TransactionRepository {
     fun deleteTransaction(id: Int): Boolean
 
     fun findTransactionIndexById(id: Int): Int
+
+    fun getAllTransaction(): List<Transaction>
 }

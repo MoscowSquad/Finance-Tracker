@@ -1,12 +1,15 @@
 package ui
 
+import ReportRepository
+import TransactionRepository
+
 object MenusManager {
 
     private fun divider(menuName: String){
         println("======== $menuName ========")
     }
 
-    fun startMenu(){
+    fun startMenu(transactionRepository: TransactionRepository, reportRepository: ReportRepository) {
         while (true){
             print("Welcome to PFT, How i can help you today\n" +
                     "1- Income\n" + // done
@@ -16,10 +19,10 @@ object MenusManager {
                     "5- Exit\n" +
                     "Enter Your option: ")
             when (readln().toIntOrNull()) {
-                1 -> incomeMenu()
-                2 -> expensesMenu()
+                1 -> incomeMenu(transactionRepository)
+                2 -> expensesMenu(transactionRepository)
                 3 -> categoriesMenu()
-                4 -> viewTransactionMenu()
+                4 -> viewTransactionMenu(reportRepository)
                 5 -> break
                 null -> println("Invalid Input try again")
                 else -> println("Enter a valid number between 1 - 5")
@@ -27,7 +30,7 @@ object MenusManager {
         }
     }
 
-    fun expensesMenu() {
+    fun expensesMenu(transactionRepository: TransactionRepository) {
         while (true){
             divider("Expenses Menu")
 
@@ -46,7 +49,7 @@ object MenusManager {
         }
     }
 
-    fun incomeMenu() {
+    fun incomeMenu(transactionRepository: TransactionRepository) {
         while (true){
             divider("Income Menu")
             print(
@@ -55,7 +58,7 @@ object MenusManager {
                     "3- Back\n" +
                     "Enter Your option: ")
             when(readln().toIntOrNull()){
-                1 -> IncomeManager.addIncomeMenu()
+                1 -> IncomeManager.addIncomeMenu(transactionRepository::addTransaction)
                 2 -> IncomeManager.viewIncomeTransaction()
                 3 -> return
                 null -> println("Invalid Input try again")
@@ -89,16 +92,15 @@ object MenusManager {
         }
     }
 
-    fun viewTransactionMenu() {
+    fun viewTransactionMenu(reportRepository: ReportRepository) {
         divider("View Transaction Menu")
-        print(
-                "OK, here is your monthly report:\n")
+        print("OK, here is your monthly report:\n")
         // call view function
         print("Do you want to show transactions (1. YES | 2. NO): ")
         when(readln().toIntOrNull()){
             1 -> {
                 println("Here is the transactions done this month: ")
-                // view month transactions
+                print(reportRepository.prepareMonthlySummary())
             }
             2 -> return
         }
