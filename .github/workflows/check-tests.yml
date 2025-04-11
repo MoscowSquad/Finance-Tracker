@@ -1,9 +1,6 @@
-# This is a basic workflow to help you get started with Actions
 name: Run Kotlin Check Tests
 on:
   push:
-    branches: [ "main", "development" ]
-  pull_request:
     branches: [ "main", "development" ]
   workflow_dispatch:
 jobs:
@@ -22,18 +19,21 @@ jobs:
           curl -s https://get.sdkman.io | bash
           source "$HOME/.sdkman/bin/sdkman-init.sh"
           sdk install kotlin
-      - name: Compile Kotlin files and create executable jar
+      - name: Compile Kotlin files
         run: |
           mkdir -p out/classes
-          # Find all Kotlin source files
           find src -name "*.kt" > sources.txt
-          # Compile Kotlin code and include runtime
-          kotlinc @sources.txt -include-runtime -d out/TestRunner.jar
+          kotlinc @sources.txt -include-runtime -d out/classes
+      - name: Create Manifest File
+        run: |
+          echo "Manifest-Version: 1.0" > MANIFEST.MF
+          echo "Main-Class: MainKt" >> MANIFEST.MF
+      - name: Package Executable JAR
+        run: |
+          jar cfm out/TestRunner.jar MANIFEST.MF -C out/classes .
       - name: Run Tests and Fail on "Failed"
         run: |
           set -o pipefail
-          # Run the compiled JAR with explicit main class
-          OUTPUT=$(java -jar out/TestRunner.jar | tee output.log)
+          OUTPUT=$(kotlin out/TestRunner.jar | tee output.log)
           echo "$OUTPUT"
-          # Fail the job if "Failed" appears in the output
           echo "$OUTPUT" | grep -q "Failed" && exit 1 || echo "All tests passed"
