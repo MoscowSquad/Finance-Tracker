@@ -8,7 +8,7 @@ interface TransactionRepository {
 
     fun deleteTransaction(id: Int): Boolean
 
-    fun getTransactionsDetails(transactionType: TransactionType): String
+    fun getTransactionsDetails(transactionType: TransactionType?): String
 
     fun getAllTransactions(): List<Transaction>
 }

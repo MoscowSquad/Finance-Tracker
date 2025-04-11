@@ -9,7 +9,7 @@ class TransactionRepositoryImpl(
         if (amount <= 0)
             return false
 
-        if (canAddTransaction(category))
+        if (!canAddTransaction(category))
             return false
 
         val newId = if (transactions.isEmpty()) 1
@@ -36,7 +36,7 @@ class TransactionRepositoryImpl(
                 balance -= transaction.amount
             }
         }
-        return balance < 0
+        return balance >= 0
     }
 
     override fun editTransactionAmount(id: Int, amount: Double): Boolean {
@@ -75,10 +75,11 @@ class TransactionRepositoryImpl(
         return transactions.indexOfFirst { it.id == id }
     }
 
-    override fun getTransactionsDetails(transactionType: TransactionType): String {
-        val filteredTransactions = transactions.filter { it.type == transactionType }
+    override fun getTransactionsDetails(transactionType: TransactionType?): String {
+        val filteredTransactions =
+            if (transactionType == null) transactions else transactions.filter { it.type == transactionType }
 
-        if (filteredTransactions.isEmpty()) return "No ${transactionType.name.lowercase()} transactions found."
+        if (filteredTransactions.isEmpty()) return "No ${transactionType?.name?.lowercase()?:"\b"} transactions found."
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")
 
