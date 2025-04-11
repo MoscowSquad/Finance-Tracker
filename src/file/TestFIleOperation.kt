@@ -240,4 +240,4 @@ fun <T> check(testcase: String, value: T, expected: T) {
             "${red}Failed${reset}: $testcase"
         }
     )
-}
+} 
