@@ -1,3 +1,9 @@
+package testCases.FileOperations
+
+
+import Category
+import Transaction
+import TransactionType
 import file.UserManager
 import file.StorageOperationManager
 import java.io.File
@@ -85,8 +91,6 @@ fun main() {
         },
         expected = true
     )
-
-
 
     // loadFromFile
 

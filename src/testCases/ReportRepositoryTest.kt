@@ -30,7 +30,7 @@ fun main() {
             100.0,
             TransactionType.EXPENSE,
             Category.Food,
-            LocalDateTime.parse("2025-03-03T10:15:30")
+            LocalDateTime.parse("2025-02-03T10:15:30")
         ),
         Transaction(
             1,
