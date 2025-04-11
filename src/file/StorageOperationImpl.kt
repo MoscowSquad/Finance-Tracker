@@ -6,7 +6,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object StorageOperationImpl : StorageOperation {
-    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private const val TRANSACTION_HEADER = "id,amount,type,category,date"
 
     override fun saveToFile(transactions: List<Transaction>, storagePath: String, userName: String?) {
