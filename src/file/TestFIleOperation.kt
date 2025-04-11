@@ -58,13 +58,13 @@ fun main() {
 
     check(
         testcase = "file should contain first transaction data",
-        value = content.contains("1,150.0,EXPENSE,Food,2025-04-11 14:00:00"),
+        value = content.contains("1,150.0,EXPENSE,Food,2025-04-11T14:00"),
         expected = true
     )
 
     check(
         testcase = "file should contain second transaction data",
-        value = content.contains("2,2500.0,INCOME,Salary,2025-04-12 09:30:00"),
+        value = content.contains("2,2500.0,INCOME,Salary,2025-04-11T14:00"),
         expected = true
     )
 
@@ -119,8 +119,8 @@ fun main() {
             val fileContent = """
             User: Mohammed
             $header
-            1,100.0,EXPENSE,Food,2025-04-11 14:00:00
-            2,2500.0,INCOME,Salary,2025-04-12 10:30:00
+            1,100.0,EXPENSE,Food,2025-04-11T14:00
+            2,2500.0,INCOME,Salary,2025-04-11T14:00
         """.trimIndent()
             File(testLoadPath).writeText(fileContent)
             val transactions = StorageOperationImpl.loadTransactionFromFile(testLoadPath)
@@ -139,7 +139,7 @@ fun main() {
         value = run {
             val fileContent = """
             $header
-            1,75.5,EXPENSE,Food,2025-04-10 09:00:00
+            1,75.5,EXPENSE,Food,2025-04-11T14:00
         """.trimIndent()
             File(testLoadPath).writeText(fileContent)
 
@@ -160,7 +160,7 @@ fun main() {
             User: Test
             $header
             this,is,not,a,valid,line
-            3,100.0,EXPENSE,Food,2025-04-11 14:00:00
+            3,100.0,EXPENSE,Food,2025-04-11T14:00
         """.trimIndent()
             File(testLoadPath).writeText(fileContent)
 
