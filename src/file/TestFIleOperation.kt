@@ -1,11 +1,9 @@
-package testCases.FileOperations
+package file
 
 
 import Category
 import Transaction
 import TransactionType
-import file.UserManager
-import file.StorageOperationManager
 import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -35,7 +33,7 @@ fun main() {
         Transaction(2, 2500.0, TransactionType.INCOME, Category.Salary, LocalDateTime.parse("2025-04-12T09:30:00"))
     )
 
-    StorageOperationManager.saveToFile(transactions, testPath, "Mohammed")
+    StorageOperationImpl.saveToFile(transactions, testPath, "Mohammed")
 
     val file = File(testPath)
     val content = file.readText()
@@ -74,7 +72,7 @@ fun main() {
         testcase = "file should handle null username as Unknown",
         value = run {
             val path = "test_data/null_user_test.csv"
-            StorageOperationManager.saveToFile(transactions, path, null)
+            StorageOperationImpl.saveToFile(transactions, path, null)
             val result = File(path).readLines().first().trim()
             result == "User: Unknown"
         },
@@ -85,7 +83,7 @@ fun main() {
         testcase = "when empty transaction list should still write user and header only",
         value = run {
             val path = "test_data/empty_test.csv"
-            StorageOperationManager.saveToFile(emptyList(), path, "TestUser")
+            StorageOperationImpl.saveToFile(emptyList(), path, "TestUser")
             val lines = File(path).readLines()
             lines.size == 2 && lines[0].startsWith("User:") && lines[1] == "id,amount,type,category,date"
         },
@@ -99,9 +97,9 @@ fun main() {
         value = run {
             val path = "test_data/nonexistent.csv"
             File(path).delete()
-            val result = StorageOperationManager
-                .loadFromFile(path)
-            result.first.isEmpty() && result.second == null
+            val transactions = StorageOperationImpl.loadTransactionFromFile(testLoadPath)
+            val user = StorageOperationImpl.loadNameFromFile(testLoadPath)
+           transactions.isEmpty() && user == null
         },
         expected = true
     )
@@ -109,9 +107,9 @@ fun main() {
         testcase = "when file has no header, should return empty list and null username",
         value = run {
             File(testLoadPath).writeText("Some garbage data\nAnother line")
-            val result = StorageOperationManager
-                .loadFromFile(testLoadPath)
-            result.first.isEmpty() && result.second == null
+            val transactions = StorageOperationImpl.loadTransactionFromFile(testLoadPath)
+            val user = StorageOperationImpl.loadNameFromFile(testLoadPath)
+            transactions.isEmpty() && user == null
         },
         expected = true
     )
@@ -125,9 +123,9 @@ fun main() {
             2,2500.0,INCOME,Salary,2025-04-12 10:30:00
         """.trimIndent()
             File(testLoadPath).writeText(fileContent)
-            val result = StorageOperationManager.loadFromFile(testLoadPath)
-            val transactions = result.first
-            val user = result.second
+            val transactions = StorageOperationImpl.loadTransactionFromFile(testLoadPath)
+            val user = StorageOperationImpl.loadNameFromFile(testLoadPath)
+
             transactions.size == 2 &&
                     transactions[0].amount == 100.0 &&
                     transactions[1].type == TransactionType.INCOME &&
@@ -145,10 +143,9 @@ fun main() {
         """.trimIndent()
             File(testLoadPath).writeText(fileContent)
 
-            val result = StorageOperationManager
-                .loadFromFile(testLoadPath)
-            val transactions = result.first
-            val user = result.second
+
+            val transactions = StorageOperationImpl.loadTransactionFromFile(testLoadPath)
+            val user = StorageOperationImpl.loadNameFromFile(testLoadPath)
 
             transactions.size == 1 &&
                     transactions[0].category == Category.Food &&
@@ -167,9 +164,9 @@ fun main() {
         """.trimIndent()
             File(testLoadPath).writeText(fileContent)
 
-            val result = StorageOperationManager
-                .loadFromFile(testLoadPath)
-            result.first.size == 1 && result.first[0].id == 3
+            val nameResult = StorageOperationImpl.loadNameFromFile(testLoadPath)
+            val transactionResult = StorageOperationImpl.loadTransactionFromFile(testLoadPath)
+            transactionResult.size == 1 && transactionResult[0].id == 3
         },
         expected = true
     )
@@ -180,7 +177,7 @@ fun main() {
 
     // Test 1: When no user exists initially
 
-    val testManager1 = UserManager(StorageOperationManager, storagePath)
+    val testManager1 = UserManager(StorageOperationImpl, storagePath)
     check(
         testcase = "when no user exists, userName should be null",
         value = testManager1.userName == null,
@@ -197,7 +194,7 @@ fun main() {
 
     // Clean up and create new manager
     File(storagePath).delete()
-    val testManager2 = UserManager(StorageOperationManager, storagePath)
+    val testManager2 = UserManager(StorageOperationImpl, storagePath)
 
     // Test 3: Register whitespace username
     testManager2.registerUser("   ")
@@ -209,7 +206,7 @@ fun main() {
 
     // Clean up and create new manager
     File(storagePath).delete()
-    val testManager3 = UserManager(StorageOperationManager, storagePath)
+    val testManager3 = UserManager(StorageOperationImpl, storagePath)
 
     // Test 4: Register valid username
     testManager3.registerUser("Mohamed")
