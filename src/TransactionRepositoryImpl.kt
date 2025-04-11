@@ -2,31 +2,63 @@ import java.time.LocalDateTime
 
 class TransactionRepositoryImpl(
     private val transactions: MutableList<Transaction>
-): TransactionRepository {
+) : TransactionRepository {
 
-override fun addTransaction(transaction: Transaction): Boolean {
-    return try {
-        val newId = transactions.size + 1
-        val newTransaction = transaction.copy(id = newId)
-        transactions.add(newTransaction)
-        println("Transaction added successfully")
-        true
-    } catch (e: Exception) {
-        val errorMessage = "something went wrong"
-        println("Error adding transaction: $errorMessage")
-        false
-    }
-}
-    override fun editTransaction(transaction: Transaction): Boolean {
-       val index = transactions.indexOfFirst{it.id == transaction.id}
-      return if(index != -1){
-           transactions[index]= transaction
-          println("Transaction with ID ${transaction.id} updated successfully")
-          true
-       } else {
-          println("Error: Transaction with ID ${transaction.id} not found")
-          false
-      }
+    override fun addTransaction(amount: Double, category: Category): Boolean {
+        if (amount <= 0)
+            return false
+
+        val newId = if (transactions.isEmpty()) 1
+        else transactions.maxOf { it.id } + 1
+
+        val transaction = Transaction(
+            id = newId, amount = amount, type = category.type,
+            category = category, date = LocalDateTime.now()
+        )
+
+        transactions.add(transaction)
+        return true
     }
 
+    override fun editTransactionAmount(id: Int, amount: Double): Boolean {
+        if (id == 0)
+            return false
+
+        if (amount <= 0)
+            return false
+
+        val transactionIndex = findTransactionIndexById(id)
+        if (transactionIndex == -1)
+            return false
+
+        transactions[transactionIndex] = transactions[transactionIndex].copy(amount = amount)
+        return true
+    }
+
+    override fun editTransactionCategory(id: Int, category: Category): Boolean {
+        if (id == 0)
+            return false
+
+        val transactionIndex = findTransactionIndexById(id)
+        if (transactionIndex == -1)
+            return false
+
+        transactions[transactionIndex] = transactions[transactionIndex].copy(category = category)
+        return true
+    }
+
+    override fun deleteTransaction(id: Int): Boolean {
+        val transactionIndex = findTransactionIndexById(id)
+        if (transactionIndex == -1)
+            return false
+
+        transactions.removeAt(transactionIndex)
+        return true
+    }
+
+    override fun findTransactionIndexById(id: Int): Int {
+        if (id == 0)
+            return -1
+        return transactions.indexOfFirst { it.id == id }
+    }
 }
