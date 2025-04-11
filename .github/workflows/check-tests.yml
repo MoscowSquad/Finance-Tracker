@@ -1,0 +1,41 @@
+name: Run Kotlin Check Tests
+on:
+  push:
+    branches: [ "main", "development" ]
+#  pull_request:
+#    branches: [ "main", "development" ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Set up Java (for Kotlin)
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Install Latest Kotlin Compiler
+        run: |
+          curl -s https://get.sdkman.io | bash
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk install kotlin
+      - name: Compile Kotlin files
+        run: |
+          mkdir -p out/classes
+          find src -name "*.kt" > sources.txt
+          kotlinc @sources.txt -include-runtime -d out/classes
+      - name: Create Manifest File
+        run: |
+          echo "Manifest-Version: 1.0" > MANIFEST.MF
+          echo "Main-Class: MainKt" >> MANIFEST.MF
+      - name: Package Executable JAR
+        run: |
+          jar cfm out/TestRunner.jar MANIFEST.MF -C out/classes .
+      - name: Run Tests and Fail on "Failed"
+        run: |
+          set -o pipefail
+          OUTPUT=$(kotlin out/TestRunner.jar | tee output.log)
+          echo "$OUTPUT"
+          echo "$OUTPUT" | grep -q "Failed" && exit 1 || echo "All tests passed"

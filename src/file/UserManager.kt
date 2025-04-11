@@ -16,7 +16,7 @@ class UserManager(
         userName = loadedName
     }
 
-    private fun hasUser(): Boolean = userName != null
+    fun hasUser(): Boolean = userName != null
 
     fun registerUser(inputName: String) {
         if (hasUser()) {

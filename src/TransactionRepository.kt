@@ -10,5 +10,7 @@ interface TransactionRepository {
 
     fun findTransactionIndexById(id: Int): Int
 
-    fun getTransactionsDetail(): String
+    fun getTransactionsDetails(transactionType: TransactionType): String
+
+    fun getAllTransactions(): List<Transaction>
 }
