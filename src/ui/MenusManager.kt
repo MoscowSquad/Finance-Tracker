@@ -40,7 +40,7 @@ class MenusManager {
         }
     }
 
-    fun expensesMenu(transactionRepository: TransactionRepository) {
+    private fun expensesMenu(transactionRepository: TransactionRepository) {
         while (true){
             divider("Expenses Menu")
 
@@ -59,7 +59,7 @@ class MenusManager {
         }
     }
 
-    fun incomeMenu(transactionRepository: TransactionRepository) {
+    private fun incomeMenu(transactionRepository: TransactionRepository) {
         while (true){
             divider("Income Menu")
             print(
@@ -77,7 +77,7 @@ class MenusManager {
         }
     }
 
-    fun viewTransactionMenu(transactionRepository: TransactionRepository, reportRepository: ReportRepository) {
+    private fun viewTransactionMenu(transactionRepository: TransactionRepository, reportRepository: ReportRepository) {
         divider("View Transaction Menu")
         print("Choose report type: \n1.Monthly Transactions \n2.All Transactions\nEnter your option: ")
         when(readln().toIntOrNull()){

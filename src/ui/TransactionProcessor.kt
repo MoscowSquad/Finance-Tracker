@@ -11,7 +11,10 @@ class TransactionProcessor {
                     "Lets add $type\n" +
                     "Enter Amount: "
         )
-        val transactionAmount: Double = readln().toDouble()
+
+        val transactionAmount =  readlnNumber(  "Enter Amount: ")
+
+
         val transactionCategories = categorySelector(type)
         val category: Category = transactionCategories[readln().toInt() - 1]
         if (addTransaction(
@@ -92,6 +95,17 @@ class TransactionProcessor {
             println("${index + 1}. $category")
         }
         return transactionCategories
+    }
+    fun readlnNumber(msg: String):Double{
+        var transactionAmount: Double?
+        while (true){
+            transactionAmount=  readln().toDoubleOrNull()
+            if (transactionAmount != null)break
+
+            println("Invalid Input")
+            print(msg)
+        }
+        return transactionAmount!!
     }
 
 }
