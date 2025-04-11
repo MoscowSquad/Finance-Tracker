@@ -21,14 +21,9 @@ class TransactionRepositoryImpl(
     }
 
     override fun editTransactionAmount(id: Int, amount: Double): Boolean {
-        if (id == 0)
-            return false
-
-        if (amount <= 0)
-            return false
-
         val transactionIndex = findTransactionIndexById(id)
-        if (transactionIndex == -1)
+
+        if (id == 0 || amount <= 0 || transactionIndex == -1)
             return false
 
         transactions[transactionIndex] = transactions[transactionIndex].copy(amount = amount)
@@ -36,11 +31,9 @@ class TransactionRepositoryImpl(
     }
 
     override fun editTransactionCategory(id: Int, category: Category): Boolean {
-        if (id == 0)
-            return false
-
         val transactionIndex = findTransactionIndexById(id)
-        if (transactionIndex == -1)
+
+        if (id == 0 || transactionIndex == -1)
             return false
 
         transactions[transactionIndex] = transactions[transactionIndex].copy(category = category)
@@ -49,6 +42,7 @@ class TransactionRepositoryImpl(
 
     override fun deleteTransaction(id: Int): Boolean {
         val transactionIndex = findTransactionIndexById(id)
+
         if (transactionIndex == -1)
             return false
 
@@ -62,7 +56,16 @@ class TransactionRepositoryImpl(
         return transactions.indexOfFirst { it.id == id }
     }
 
-    override fun getAllTransaction(): List<Transaction> {
-        return transactions
+    override fun getTransactionsDetail(): String {
+        var str = ""
+        transactions.forEach { transaction ->
+            val categoryStr = when (transaction.category) {
+                Category.Food -> "Food"
+                Category.Salary -> "Salary"
+            }
+            val typeSymbol = if (transaction.type == TransactionType.INCOME) "++" else "--"
+            str += "$typeSymbol${transaction.amount} ${transaction.date} :$categoryStr\n"
+        }
+        return str
     }
 }
