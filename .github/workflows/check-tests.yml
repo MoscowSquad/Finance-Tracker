@@ -42,10 +42,6 @@ jobs:
         run: |
           mkdir -p out/classes
 
-          # Compile all .kt files to class files
-          find . -name "*.kt" > sources.txt
-          kotlinc @sources.txt -d out/classes
-
           # Find source files
           find src -name "*.kt" > sources.txt
 
