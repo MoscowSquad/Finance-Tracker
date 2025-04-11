@@ -1,9 +1,7 @@
 import java.time.Month
 
-class ReportRepositoryImpl(
-    private val transactions: List<Transaction>
-) : ReportRepository {
-    override fun prepareMonthlySummary(month: Month): MonthlySummary {
+class ReportRepositoryImpl : ReportRepository {
+    override fun prepareMonthlySummary(transactions: List<Transaction>,month: Month): MonthlySummary {
         var totalIncomes = 0.0
         var totalExpenses = 0.0
         transactions.forEach { transaction ->
