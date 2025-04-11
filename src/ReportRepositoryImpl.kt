@@ -1,7 +1,11 @@
 import java.time.Month
 
 class ReportRepositoryImpl : ReportRepository {
-    override fun prepareMonthlySummary(transactions: List<Transaction>,month: Month): MonthlySummary {
+    override fun getAllTransactionSummary(transactions: List<Transaction>): MonthlySummary {
+        return MonthlySummary(0.0, 0.0, 0.0)
+    }
+
+    override fun prepareMonthlySummary(transactions: List<Transaction>, month: Month): MonthlySummary {
         var totalIncomes = 0.0
         var totalExpenses = 0.0
         transactions.forEach { transaction ->
