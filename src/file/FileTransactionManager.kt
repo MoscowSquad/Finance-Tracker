@@ -22,9 +22,9 @@ class FileTransactionManager(
         ) } 
     }
 
-    override fun addAllTransactions(transaction: List<Transaction>, userName: String?) {
-        transactions.addAll(transaction)
-        storageOperation.saveToFile(transactions, storagePath, userName)
+    override fun addAllTransactions(transactions: List<Transaction>, userName: String?) {
+        this.transactions.addAll(transactions)
+        storageOperation.saveToFile(this.transactions, storagePath, userName)
     }
 
     override fun getAllTransactions(): List<Transaction> {

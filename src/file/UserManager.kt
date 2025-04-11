@@ -11,18 +11,18 @@ class UserManager(
         loadUserName()
     }
 
-    private fun loadUserName() {
+    fun loadUserName() {
         val (_, loadedName) = storageOperation.loadFromFile(storagePath)
         userName = loadedName
     }
 
-    fun hasUser(): Boolean = userName != null
+    private fun hasUser(): Boolean = userName != null
 
     fun registerUser(inputName: String) {
         if (hasUser()) {
             return
         }
-        userName = if (inputName.isBlank()) "Unknown" else inputName
+        userName = inputName.ifBlank { "Unknown" }
         storageOperation.saveToFile(emptyList(), storagePath, userName)
 
     }

@@ -9,26 +9,17 @@ object StorageOperationManager : StorageOperation {
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
     private const val TRANSACTION_HEADER = "id,amount,type,category,date"
 
-
     override fun saveToFile(transactions: List<Transaction>, storagePath: String, userName: String?) {
         try {
             val file = File(storagePath)
-            val isNewFile = file.length() == 0L
-
+            val additionalData = "User: ${userName ?: "Unknown"}\n"
+            val header = "$TRANSACTION_HEADER\n"
             val csvLines = transactions.joinToString(separator = "\n") { transaction ->
                 "${transaction.id},${transaction.amount},${transaction.type},${transaction.category},${transaction.date.format(formatter)}"
             }
-
-            if (isNewFile) {
-                val additionalData = "User: ${userName ?: "Unknown"}\n"
-                val header = "$TRANSACTION_HEADER\n"
-                file.writeText(additionalData + header + csvLines + "\n")
-            } else {
-                file.appendText(csvLines + "\n")
-            }
-
+            file.writeText(additionalData + header + csvLines)
         } catch (e: Exception) {
-
+            println("Exception found: ${e.message}")
         }
     }
 
@@ -70,6 +61,4 @@ object StorageOperationManager : StorageOperation {
             null
         }
     }
-
-
 }
