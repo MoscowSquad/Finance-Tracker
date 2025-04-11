@@ -32,10 +32,10 @@ This repository uses:
 
 As Moscow Squad, we aim to:
 
-🚀 Strengthen our problem-solving skills.
-🚀 Improve our Kotlin proficiency.
-🚀 Build a supportive and creative learning environment.
-🚀 Deliver a well-structured and functional application.
+- 🚀 Strengthen our problem-solving skills.
+- 🚀 Improve our Kotlin proficiency.
+- 🚀 Build a supportive and creative learning environment.
+- 🚀 Deliver a well-structured and functional application.
 
 ## 📌 Project Overview – Finance Tracker App
 
@@ -52,12 +52,12 @@ Our mission is to collaboratively design and implement a **Finance Tracker** app
 
 ### 🔹 Functional Requirements
 
-✅ Users should be able to **add, view, edit, and delete transactions** (both income and expenses).
-✅ Each transaction must be associated with a **category** (e.g., Food, Rent, Salary).
-✅ The system must provide a **monthly summary and balance report** based on transaction dates.
+- ✅ Users should be able to **add, view, edit, and delete transactions** (both income and expenses).
+- ✅ Each transaction must be associated with a **category** (e.g., Food, Rent, Salary).
+- ✅ The system must provide a **monthly summary and balance report** based on transaction dates.
 
 ### 🔹 Technical Requirements
 
-🔹 All logic-heavy functionalities must include **check functions** for unit testing.
-🔹 The **Dependency Inversion Principle** must be applied for loosely coupled code.
-🔹 All new features must be developed in **dedicated feature branches**, with pull requests opened to the **development branch** for review.
+- 🔹 All logic-heavy functionalities must include **check functions** for unit testing.
+- 🔹 The **Dependency Inversion Principle** must be applied for loosely coupled code.
+- 🔹 All new features must be developed in **dedicated feature branches**, with pull requests opened to the **development branch** for review.
