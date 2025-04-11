@@ -47,10 +47,7 @@ jobs:
 
           # Compile Kotlin and include runtime in the JAR
           kotlinc @sources.txt -include-runtime -d out/TestRunner.jar
-
-
-      - name: Run Tests and Fail on "Failed"
-        run: |
+          
           set -o pipefail
           OUTPUT=$(kotlin out/TestRunner.jar | tee output.log)
           echo "$OUTPUT"
