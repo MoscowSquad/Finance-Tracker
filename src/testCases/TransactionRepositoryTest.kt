@@ -12,7 +12,7 @@ fun main() {
     check(
         testcase = "Add transaction case is valid return true",
         value = transactionRepository.addTransaction(
-            1000.0, category = Category.Food
+            1000.0, category = Category.FOOD
         ),
         expected = true
     )
@@ -20,7 +20,7 @@ fun main() {
     check(
         testcase = "The amount value is zero return false",
         value = transactionRepository.addTransaction(
-            0.0, Category.Food
+            0.0, Category.FOOD
         ),
         expected = false
     )
@@ -28,7 +28,7 @@ fun main() {
     check(
         testcase = "The amount value is negative return false",
         value = transactionRepository.addTransaction(
-            -10.0, Category.Food,
+            -10.0, Category.FOOD,
         ),
         expected = false
     )
@@ -36,7 +36,7 @@ fun main() {
     check(
         testcase = "The transaction-type is not the same as category-type value is negative return false",
         value = transactionRepository.addTransaction(
-            -100.0, Category.Salary
+            -100.0, Category.SALARY
         ),
         expected = false
     )
@@ -57,28 +57,28 @@ fun main() {
                 1235,
                 100.0,
                 TransactionType.EXPENSE,
-                Category.Food,
+                Category.FOOD,
                 LocalDateTime.parse("2025-03-03T10:15:30")
             ),
             Transaction(
                 2345,
                 100.0,
                 TransactionType.EXPENSE,
-                Category.Food,
+                Category.FOOD,
                 LocalDateTime.parse("2025-03-03T10:15:30")
             ),
             Transaction(
                 3456,
                 100.0,
                 TransactionType.EXPENSE,
-                Category.Food,
+                Category.FOOD,
                 LocalDateTime.parse("2025-04-03T10:15:30")
             ),
             Transaction(
                 5678,
                 100.0,
                 TransactionType.INCOME,
-                Category.Salary,
+                Category.SALARY,
                 LocalDateTime.parse("2025-04-03T10:15:30")
             ),
         )
@@ -126,28 +126,28 @@ fun main() {
                 1235,
                 100.0,
                 TransactionType.EXPENSE,
-                Category.Food,
+                Category.FOOD,
                 LocalDateTime.parse("2025-03-03T10:15:30")
             ),
             Transaction(
                 2345,
                 100.0,
                 TransactionType.EXPENSE,
-                Category.Food,
+                Category.FOOD,
                 LocalDateTime.parse("2025-03-03T10:15:30")
             ),
             Transaction(
                 3456,
                 100.0,
                 TransactionType.EXPENSE,
-                Category.Food,
+                Category.FOOD,
                 LocalDateTime.parse("2025-04-03T10:15:30")
             ),
             Transaction(
                 5678,
                 100.0,
                 TransactionType.INCOME,
-                Category.Salary,
+                Category.SALARY,
                 LocalDateTime.parse("2025-04-03T10:15:30")
             ),
         )

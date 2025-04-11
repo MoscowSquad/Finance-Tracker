@@ -2,11 +2,14 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class TransactionRepositoryImpl(
-    private val transactions: MutableList<Transaction>
+    private val transactions: MutableList<Transaction>,
 ) : TransactionRepository {
 
     override fun addTransaction(amount: Double, category: Category): Boolean {
         if (amount <= 0)
+            return false
+
+        if (canAddTransaction(category))
             return false
 
         val newId = if (transactions.isEmpty()) 1
@@ -19,6 +22,21 @@ class TransactionRepositoryImpl(
 
         transactions.add(transaction)
         return true
+    }
+
+    private fun canAddTransaction(category: Category): Boolean {
+        if (category.type == TransactionType.INCOME)
+            return true
+
+        var balance = 0.0
+        transactions.forEach { transaction ->
+            if (transaction.type == TransactionType.INCOME) {
+                balance += transaction.amount
+            } else {
+                balance -= transaction.amount
+            }
+        }
+        return balance < 0
     }
 
     override fun editTransactionAmount(id: Int, amount: Double): Boolean {
@@ -51,12 +69,11 @@ class TransactionRepositoryImpl(
         return true
     }
 
-    override fun findTransactionIndexById(id: Int): Int {
+    private fun findTransactionIndexById(id: Int): Int {
         if (id == 0)
             return -1
         return transactions.indexOfFirst { it.id == id }
     }
-
 
     override fun getTransactionsDetails(transactionType: TransactionType): String {
         val filteredTransactions = transactions.filter { it.type == transactionType }
@@ -69,14 +86,6 @@ class TransactionRepositoryImpl(
             appendLine("ID   | Type   | Amount   | Date & Time       | Category")
             appendLine("---------------------------------------------------------------")
             filteredTransactions.forEach { transaction ->
-                val categoryStr = when (transaction.category) {
-                    Category.Food -> "Food"
-                    Category.Salary -> "Salary"
-                    Category.Transportation -> "Transportation"
-                    Category.Rent -> "Rent"
-                    Category.Freelance -> "Freelance"
-                    Category.Investing -> "Investing"
-                }
                 val typeSymbol = if (transaction.type == TransactionType.INCOME) "Income" else "Expense"
                 val formattedDateTime = transaction.date.format(formatter)
                 appendLine(
@@ -85,7 +94,7 @@ class TransactionRepositoryImpl(
                         typeSymbol,
                         transaction.amount,
                         formattedDateTime,
-                        categoryStr
+                        transaction.category.title
                     )
                 )
             }
