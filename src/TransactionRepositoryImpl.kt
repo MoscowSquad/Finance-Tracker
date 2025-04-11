@@ -21,14 +21,9 @@ class TransactionRepositoryImpl(
     }
 
     override fun editTransactionAmount(id: Int, amount: Double): Boolean {
-        if (id == 0)
-            return false
-
-        if (amount <= 0)
-            return false
-
         val transactionIndex = findTransactionIndexById(id)
-        if (transactionIndex == -1)
+
+        if (id == 0 || amount <= 0 || transactionIndex == -1)
             return false
 
         transactions[transactionIndex] = transactions[transactionIndex].copy(amount = amount)
@@ -36,11 +31,9 @@ class TransactionRepositoryImpl(
     }
 
     override fun editTransactionCategory(id: Int, category: Category): Boolean {
-        if (id == 0)
-            return false
-
         val transactionIndex = findTransactionIndexById(id)
-        if (transactionIndex == -1)
+
+        if (id == 0 || transactionIndex == -1)
             return false
 
         transactions[transactionIndex] = transactions[transactionIndex].copy(category = category)
@@ -49,6 +42,7 @@ class TransactionRepositoryImpl(
 
     override fun deleteTransaction(id: Int): Boolean {
         val transactionIndex = findTransactionIndexById(id)
+
         if (transactionIndex == -1)
             return false
 
