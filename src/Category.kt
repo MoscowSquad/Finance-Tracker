@@ -1,4 +1,8 @@
 enum class Category(val type: TransactionType) {
-    Food(TransactionType.EXPENSE),
     Salary(TransactionType.INCOME),
+    Freelance(TransactionType.INCOME),
+    Investing(TransactionType.INCOME),
+    Rent(TransactionType.EXPENSE),
+    Transportation(TransactionType.EXPENSE),
+    Food(TransactionType.EXPENSE),
 }
