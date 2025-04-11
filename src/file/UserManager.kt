@@ -24,6 +24,5 @@ class UserManager(
         }
         userName = inputName.ifBlank { "Unknown" }
         storageOperation.saveToFile(emptyList(), storagePath, userName)
-
     }
 }
