@@ -12,17 +12,13 @@ class TransactionProcessor {
                     "Enter Amount: "
         )
         val transactionAmount: Double = readln().toDouble()
-        print("Choose $type Category\n")
-        val incomeCategories = Category.entries.filter { it.type == type }
-        incomeCategories.forEachIndexed { index, item ->
-            println("${index + 1}. $item")
-        }
-        val category: Category = incomeCategories[readln().toInt() - 1]
+        val transactionCategories = categorySelector(type)
+        val category: Category = transactionCategories[readln().toInt() - 1]
         if (addTransaction(
                 transactionAmount,
                 category
             )
-        ) println("Income added successfully") else println("Unexpected Error happened while incoming")
+        ) println("Transaction added successfully") else println("Unexpected Error happened")
     }
 
 
@@ -31,8 +27,8 @@ class TransactionProcessor {
             "---------------------------\n" +
                     "Here is all the ${type}s\n"
         )
-        val expenseTransactionDetails = transactionRepository.getTransactionsDetails(type)
-        println(expenseTransactionDetails)
+        val transactionDetails = transactionRepository.getTransactionsDetails(type)
+        println(transactionDetails)
         print(
             "What do you want to do?\n" +
                     "1. Edit\n" + // done
@@ -42,7 +38,7 @@ class TransactionProcessor {
         )
         when (readln().toIntOrNull()) {
             1 -> editTransaction(transactionRepository,type)
-            2 -> editTransaction(transactionRepository,type)
+            2 -> deleteTransaction(transactionRepository)
             3 -> return
             null -> println("Invalid Input try again")
             else -> println("Enter a valid number between 1 - 3")
@@ -74,15 +70,12 @@ class TransactionProcessor {
             }
 
             2 -> {
-                print("Choose $type Category\n")
-                val incomeCategories = Category.entries.filter {type== TransactionType.INCOME }
-                incomeCategories.forEachIndexed { index, category ->
-                    println("${index + 1}. $category")
-                }
+                val transactionCategories =categorySelector(type)
+
                 print("Enter Category Number: ")
                 val transactionIndex = readln().toInt()
                 val editTransactionCategory =
-                    transactionRepository.editTransactionCategory(transactionId, incomeCategories[transactionIndex - 1])
+                    transactionRepository.editTransactionCategory(transactionId, transactionCategories[transactionIndex - 1])
                 if (editTransactionCategory)
                     println("Category Changed Successfully") else println("Unexpected Error happened while editing")
             }
@@ -90,6 +83,15 @@ class TransactionProcessor {
             null -> println("Invalid Input try again")
             else -> println("Enter a valid number 1 or 2")
         }
+    }
+
+    fun categorySelector(categoryType:TransactionType):List<Category>{
+        print("Choose $categoryType Category\n")
+        val transactionCategories = Category.entries.filter {it.type== categoryType }
+        transactionCategories.forEachIndexed { index, category ->
+            println("${index + 1}. $category")
+        }
+        return transactionCategories
     }
 
 }
