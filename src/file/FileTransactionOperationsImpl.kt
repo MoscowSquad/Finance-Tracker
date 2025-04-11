@@ -15,6 +15,6 @@ class FileTransactionManager(
     override fun getAllTransactions(): List<Transaction> {
         val file = File(storagePath)
         file.parentFile?.mkdirs()
-        return StorageOperationManager.loadFromFile(storagePath).first
+        return StorageOperationImpl.loadTransactionFromFile(storagePath)
     }
 }
