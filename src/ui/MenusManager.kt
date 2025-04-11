@@ -9,7 +9,7 @@ object MenusManager {
         println("======== $menuName ========")
     }
 
-    fun startMenu(transactionRepository: TransactionRepository, reportRepository: ReportRepository) {
+    fun startMenu(transactionRepository: TransactionRepository) {
         while (true){
             print("Welcome to PFT, How i can help you today\n" +
                     "1- Income\n" + // done
@@ -22,7 +22,7 @@ object MenusManager {
                 1 -> incomeMenu(transactionRepository)
                 2 -> expensesMenu(transactionRepository)
                 3 -> categoriesMenu()
-                4 -> viewTransactionMenu(reportRepository)
+                4 -> viewTransactionMenu()
                 5 -> break
                 null -> println("Invalid Input try again")
                 else -> println("Enter a valid number between 1 - 5")
@@ -92,7 +92,7 @@ object MenusManager {
         }
     }
 
-    fun viewTransactionMenu(reportRepository: ReportRepository) {
+    fun viewTransactionMenu() {
         divider("View Transaction Menu")
         print("OK, here is your monthly report:\n")
         // call view function
@@ -100,10 +100,6 @@ object MenusManager {
         when(readln().toIntOrNull()){
             1 -> {
                 println("Here is the transactions done this month: ")
-                print(reportRepository.prepareMonthlySummary(
-                    transactions = TODO(),
-                    month = TODO()
-                ))
             }
             2 -> return
         }
