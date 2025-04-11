@@ -55,4 +55,17 @@ class TransactionRepositoryImpl(
             return -1
         return transactions.indexOfFirst { it.id == id }
     }
+
+    override fun getTransactionsDetail(): String {
+        var str = ""
+        transactions.forEach { transaction ->
+            val categoryStr = when (transaction.category) {
+                Category.Food -> "Food"
+                Category.Salary -> "Salary"
+            }
+            val typeSymbol = if (transaction.type == TransactionType.INCOME) "++" else "--"
+            str += "$typeSymbol${transaction.amount} ${transaction.date} :$categoryStr\n"
+        }
+        return str
+    }
 }
