@@ -49,14 +49,14 @@ class TransactionProcessor {
 
 
 
-    fun deleteTransaction(transactionRepository: TransactionRepository) {
+    private fun deleteTransaction(transactionRepository: TransactionRepository) {
         print("Enter Transaction ID: ")
         val transactionId: Int = readln().toInt()
         val isTransactionDeleted = transactionRepository.deleteTransaction(transactionId)
         if(isTransactionDeleted) println("Transaction Deleted Successfully") else println("Unexpected Error happened while deleting")
     }
 
-    fun editTransaction(transactionRepository: TransactionRepository, type:TransactionType) {
+    private fun editTransaction(transactionRepository: TransactionRepository, type:TransactionType) {
         print("Enter Transaction ID: ")
         val transactionId: Int = readln().toInt()
         println("What do you want to edit?\n1. Amount\n2. category")
@@ -85,7 +85,7 @@ class TransactionProcessor {
         }
     }
 
-    fun categorySelector(categoryType:TransactionType):List<Category>{
+    private fun categorySelector(categoryType:TransactionType):List<Category>{
         print("Choose $categoryType Category\n")
         val transactionCategories = Category.entries.filter {it.type== categoryType }
         transactionCategories.forEachIndexed { index, category ->
