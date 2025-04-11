@@ -2,11 +2,13 @@ package ui
 
 import ReportRepository
 import TransactionRepository
+import TransactionType
 import file.UserManager
 import java.time.LocalDateTime
 import java.time.Month
 
-object MenusManager {
+class MenusManager {
+    private val transactionProcessor=TransactionProcessor()
 
     private fun divider(menuName: String){
         println("======== $menuName ========")
@@ -40,7 +42,7 @@ object MenusManager {
         }
     }
 
-    fun expensesMenu(transactionRepository: TransactionRepository) {
+    private fun expensesMenu(transactionRepository: TransactionRepository) {
         while (true){
             divider("Expenses Menu")
 
@@ -50,8 +52,8 @@ object MenusManager {
                         "Enter Your option: "
             )
             when (readln().toIntOrNull()) {
-                1 -> ExpenseManager.addExpenseMenu(transactionRepository::addTransaction)
-                2 -> ExpenseManager.viewExpenseTransaction(transactionRepository)
+                1 -> transactionProcessor.addTransactionMenu(transactionRepository::addTransaction,TransactionType.EXPENSE)
+                2 -> transactionProcessor.viewTransaction(transactionRepository,TransactionType.EXPENSE)
                 3 -> return
                 null -> println("Invalid Input try again")
                 else -> println("Enter a valid number between 1 - 3")
@@ -59,7 +61,7 @@ object MenusManager {
         }
     }
 
-    fun incomeMenu(transactionRepository: TransactionRepository) {
+    private fun incomeMenu(transactionRepository: TransactionRepository) {
         while (true){
             divider("Income Menu")
             print(
@@ -68,8 +70,8 @@ object MenusManager {
                     "3- Back\n" +
                     "Enter Your option: ")
             when(readln().toIntOrNull()){
-                1 -> IncomeManager.addIncomeMenu(transactionRepository::addTransaction)
-                2 -> IncomeManager.viewIncomeTransaction(transactionRepository)
+                1 -> transactionProcessor.addTransactionMenu(transactionRepository::addTransaction,TransactionType.INCOME)
+                2 -> transactionProcessor.viewTransaction(transactionRepository,TransactionType.INCOME)
                 3 -> return
                 null -> println("Invalid Input try again")
                 else -> println("Enter a valid number between 1 - 3")
@@ -77,7 +79,7 @@ object MenusManager {
         }
     }
 
-    fun viewTransactionMenu(transactionRepository: TransactionRepository, reportRepository: ReportRepository) {
+    private fun viewTransactionMenu(transactionRepository: TransactionRepository, reportRepository: ReportRepository) {
         divider("View Transaction Menu")
         print("Choose report type: \n1. Monthly Transactions \n2. All Transactions\nEnter your option: ")
 
