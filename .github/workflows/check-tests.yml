@@ -32,10 +32,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install Kotlin compiler
+      - name: Install Latest Kotlin Compiler
         run: |
-          sudo apt update
-          sudo apt install -y kotlin
+          curl -s https://get.sdkman.io | bash
+          source "$HOME/.sdkman/bin/sdkman-init.sh"
+          sdk install kotlin
           
       - name: Compile Kotlin files
         run: |
