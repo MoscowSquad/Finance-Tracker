@@ -3,6 +3,8 @@ package ui
 import ReportRepository
 import TransactionRepository
 import file.UserManager
+import java.time.LocalDateTime
+import java.time.Month
 
 object MenusManager {
 
@@ -77,17 +79,30 @@ object MenusManager {
 
     fun viewTransactionMenu(transactionRepository: TransactionRepository, reportRepository: ReportRepository) {
         divider("View Transaction Menu")
-        print("Choose report type: \n1.Monthly Transactions \n2.All Transactions\nEnter your option: ")
+        print("Choose report type: \n1. Monthly Transactions \n2. All Transactions\nEnter your option: ")
+
+        var month: Month? = null
+
         when(readln().toIntOrNull()){
             1 -> {
+                month = LocalDateTime.now().month
                 print("OK, here is your monthly report:\n")
-                println(reportRepository.prepareTransactionSummary(transactions = transactionRepository.getAllTransactions()))
             }
             2 -> {
                 print("OK, here is your report:\n")
-                println(transactionRepository.getAllTransactions())
+                println(transactionRepository.getTransactionsDetails(null))
             }
         }
+        val summary = reportRepository.prepareTransactionSummary(transactionRepository.getAllTransactions(), month)
+        println(
+            """
+        |----- Transaction Summary ${month?.name ?: "All Time"} -----
+        |Total Income   : $${"%.2f".format(summary.totalIncomes)}
+        |Total Expenses : $${"%.2f".format(summary.totalExpenses)}
+        |Balance        : $${"%.2f".format(summary.balance)}
+        |-------------------------------------------
+        """.trimMargin()
+        )
     }
 
 }

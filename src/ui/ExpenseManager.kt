@@ -15,7 +15,7 @@ object ExpenseManager {
         print("Choose Expense Category\n")
         val expenseCategories = Category.entries.filter { it.type == TransactionType.EXPENSE }
         expenseCategories.forEachIndexed { index, item ->
-            println("${index + 1}. $item")
+            println("${index + 1}. ${item.title}")
         }
         val category: Category = expenseCategories[readln().toInt() - 1]
         if (addTransaction(

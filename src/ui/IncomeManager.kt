@@ -18,7 +18,7 @@ object IncomeManager {
         print("Choose Income Category\n")
         val incomeCategories = Category.entries.filter { it.type == TransactionType.INCOME }
         incomeCategories.forEachIndexed { index, item ->
-            println("${index + 1}. $item")
+            println("${index + 1}. ${item.title}")
         }
         val category: Category = incomeCategories[readln().toInt() - 1]
         if (addTransaction(
