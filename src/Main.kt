@@ -1,11 +1,11 @@
 import file.FileTransactionManager
-import file.StorageOperationManager
+import file.StorageOperationImpl
 import file.UserManager
 import ui.runApp
 import kotlin.system.exitProcess
 
 fun main() {
-    val storageManager = StorageOperationManager
+    val storageManager = StorageOperationImpl
     val userManager = UserManager(storageOperation = storageManager)
     val fileTransactionManager = FileTransactionManager(storageOperation = storageManager)
 

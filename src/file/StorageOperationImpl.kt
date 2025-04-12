@@ -5,8 +5,8 @@ import java.io.File
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-object StorageOperationManager : StorageOperation {
-    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+object StorageOperationImpl : StorageOperation {
+    private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
     private const val TRANSACTION_HEADER = "id,amount,type,category,date"
 
     override fun saveToFile(transactions: List<Transaction>, storagePath: String, userName: String?) {
@@ -23,25 +23,24 @@ object StorageOperationManager : StorageOperation {
         }
     }
 
-
-    override fun loadFromFile(storagePath: String): Pair<List<Transaction>, String?> {
-        return try {
-            val file = File(storagePath)
-            if (!file.exists()) return Pair(emptyList(), null)
-            val lines = file.readLines()
-            val userName = lines.firstOrNull { it.startsWith("User: ") }?.removePrefix("User: ")?.trim()
+    override fun loadTransactionFromFile(storagePath: String): List<Transaction> {
+        return withFileLines(storagePath) { lines ->
             val headerIndex = lines.indexOfFirst { it == TRANSACTION_HEADER }
-            if (headerIndex == -1) return Pair(emptyList(), userName)
+            if (headerIndex == -1) return@withFileLines emptyList()
+
             val transactionLines = lines.drop(headerIndex + 1)
-            val loadedTransactions = transactionLines.mapNotNull { line ->
+            transactionLines.mapNotNull { line ->
                 parseTransaction(line)
             }
-            Pair(loadedTransactions, userName)
-        } catch (e: Exception) {
-            Pair(emptyList(), null)
         }
     }
-
+    override fun loadNameFromFile(storagePath: String): String? {
+        return withFileLines(storagePath) { lines ->
+            lines.firstOrNull { it.startsWith("User: ") }
+                ?.removePrefix("User: ")
+                ?.trim()
+        }
+    }
 
     private fun parseTransaction(line: String): Transaction? {
         return try {

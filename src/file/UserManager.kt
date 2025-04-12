@@ -12,7 +12,7 @@ class UserManager(
     }
 
     fun loadUserName() {
-        val (_, loadedName) = storageOperation.loadFromFile(storagePath)
+        val loadedName = storageOperation.loadNameFromFile(storagePath)
         userName = loadedName
     }
 
@@ -24,6 +24,5 @@ class UserManager(
         }
         userName = inputName.ifBlank { "Unknown" }
         storageOperation.saveToFile(emptyList(), storagePath, userName)
-
     }
 }
