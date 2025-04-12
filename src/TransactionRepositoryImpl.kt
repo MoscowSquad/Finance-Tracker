@@ -9,7 +9,7 @@ class TransactionRepositoryImpl(
         if (amount <= 0)
             return false
 
-        if (!canAddTransaction(category))
+        if (!canAddTransaction(amount, category))
             return false
 
         val newId = if (transactions.isEmpty()) 1
@@ -24,7 +24,7 @@ class TransactionRepositoryImpl(
         return true
     }
 
-    private fun canAddTransaction(category: Category): Boolean {
+    private fun canAddTransaction(amount: Double, category: Category): Boolean {
         if (category.type == TransactionType.INCOME)
             return true
 
@@ -36,33 +36,36 @@ class TransactionRepositoryImpl(
                 balance -= transaction.amount
             }
         }
-        return balance >= 0
+        return balance - amount >= 0
     }
 
-    override fun editTransactionAmount(id: Int, amount: Double): Boolean {
+    override fun editTransactionAmount(id: Int, amount: Double, type: TransactionType): Boolean {
         val transactionIndex = findTransactionIndexById(id)
 
-        if (id == 0 || amount <= 0 || transactionIndex == -1)
+        if (id == 0 || amount <= 0 || transactionIndex == -1 || transactions[transactionIndex].type != type)
+            return false
+
+        if (!canAddTransaction(amount, transactions[transactionIndex].category))
             return false
 
         transactions[transactionIndex] = transactions[transactionIndex].copy(amount = amount)
         return true
     }
 
-    override fun editTransactionCategory(id: Int, category: Category): Boolean {
+    override fun editTransactionCategory(id: Int, category: Category, type: TransactionType): Boolean {
         val transactionIndex = findTransactionIndexById(id)
 
-        if (id == 0 || transactionIndex == -1)
+        if (id == 0 || transactionIndex == -1 || transactions[transactionIndex].type != type)
             return false
 
         transactions[transactionIndex] = transactions[transactionIndex].copy(category = category)
         return true
     }
 
-    override fun deleteTransaction(id: Int): Boolean {
+    override fun deleteTransaction(id: Int, type: TransactionType): Boolean {
         val transactionIndex = findTransactionIndexById(id)
 
-        if (transactionIndex == -1)
+        if (id == 0 || transactionIndex == -1 || transactions[transactionIndex].type != type)
             return false
 
         transactions.removeAt(transactionIndex)
@@ -79,7 +82,7 @@ class TransactionRepositoryImpl(
         val filteredTransactions =
             if (transactionType == null) transactions else transactions.filter { it.type == transactionType }
 
-        if (filteredTransactions.isEmpty()) return "No ${transactionType?.name?.lowercase()?:"\b"} transactions found."
+        if (filteredTransactions.isEmpty()) return "No ${transactionType?.name?.lowercase() ?: "\b"} transactions found."
 
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a")
 

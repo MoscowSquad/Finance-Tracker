@@ -46,7 +46,7 @@ fun main() {
     check(
         testcase = "There is no transactions return false",
         value = transactionRepository.editTransactionAmount(
-            id = 1235, 1000.0
+            id = 1235, 1000.0, type = TransactionType.INCOME
         ),
         expected = false
     )
@@ -86,28 +86,28 @@ fun main() {
     check(
         testcase = "The transaction id not found return false",
         value = transactionRepository.editTransactionAmount(
-            id = 8776, 1000.0,
+            id = 8776, 1000.0, type = TransactionType.INCOME
         ),
         expected = false
     )
     check(
         testcase = "The transaction id found return true",
         value = transactionRepository.editTransactionAmount(
-            id = 1235, 1000.0,
+            id = 1235, 1000.0, type = TransactionType.INCOME
         ),
         expected = true
     )
     check(
         testcase = "The transaction id found but the value is zero return false",
         value = transactionRepository.editTransactionAmount(
-            id = 1235, 0.0,
+            id = 1235, 0.0, type = TransactionType.INCOME
         ),
         expected = false
     )
     check(
         testcase = "The transaction id found but the value is negative return false",
         value = transactionRepository.editTransactionAmount(
-            id = 1235, -13.0,
+            id = 1235, -13.0, type = TransactionType.INCOME
         ),
         expected = false
     )
@@ -116,7 +116,7 @@ fun main() {
     transactionRepository = TransactionRepositoryImpl(mutableListOf())
     check(
         testcase = "There is no transactions return false",
-        value = transactionRepository.deleteTransaction(1093),
+        value = transactionRepository.deleteTransaction(1093, type = TransactionType.INCOME),
         expected = false
     )
 
@@ -154,12 +154,12 @@ fun main() {
     )
     check(
         testcase = "The transaction id not found return false",
-        value = transactionRepository.deleteTransaction(1093),
+        value = transactionRepository.deleteTransaction(1093, type = TransactionType.INCOME),
         expected = false
     )
     check(
         testcase = "The transaction id found return true",
-        value = transactionRepository.deleteTransaction(1235),
+        value = transactionRepository.deleteTransaction(1235, type = TransactionType.INCOME),
         expected = true
     )
 }
