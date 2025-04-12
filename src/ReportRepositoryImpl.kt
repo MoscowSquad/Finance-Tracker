@@ -1,19 +1,19 @@
 import java.time.Month
 
 class ReportRepositoryImpl : ReportRepository {
-    override fun prepareMonthlySummary(transactions: List<Transaction>,month: Month): MonthlySummary {
+    override fun prepareTransactionSummary(transactions: List<Transaction>, month: Month?): TransactionSummary {
         var totalIncomes = 0.0
         var totalExpenses = 0.0
         transactions.forEach { transaction ->
-            if (transaction.date.month == month) {
+            if (month == null || transaction.date.month == month) {
                 if (transaction.type == TransactionType.INCOME)
-                    totalIncomes = transaction.amount
+                    totalIncomes += transaction.amount
                 if (transaction.type == TransactionType.EXPENSE)
-                    totalExpenses = transaction.amount
+                    totalExpenses += transaction.amount
             }
         }
 
         val balance = totalIncomes - totalExpenses
-        return MonthlySummary(totalIncomes, totalExpenses, balance)
+        return TransactionSummary(totalIncomes, totalExpenses, balance)
     }
 }
