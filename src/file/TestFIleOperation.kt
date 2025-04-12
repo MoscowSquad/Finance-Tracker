@@ -23,14 +23,14 @@ fun main() {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
 
     val transactionList = listOf(
-        Transaction(1, 150.0, TransactionType.EXPENSE, Category.Food, LocalDateTime.parse("2025-04-11T14:00")),
-        Transaction(2, 500.0, TransactionType.INCOME, Category.Salary, LocalDateTime.parse("2025-04-12T10:30"))
+        Transaction(1, 150.0, TransactionType.EXPENSE, Category.FOOD, LocalDateTime.parse("2025-04-11T14:00")),
+        Transaction(2, 500.0, TransactionType.INCOME, Category.SALARY, LocalDateTime.parse("2025-04-12T10:30"))
     )
 
 
     val transactions = listOf(
-        Transaction(1, 150.0, TransactionType.EXPENSE, Category.Food, LocalDateTime.parse("2025-04-11T14:00:00")),
-        Transaction(2, 2500.0, TransactionType.INCOME, Category.Salary, LocalDateTime.parse("2025-04-12T09:30:00"))
+        Transaction(1, 150.0, TransactionType.EXPENSE, Category.FOOD, LocalDateTime.parse("2025-04-11T14:00:00")),
+        Transaction(2, 2500.0, TransactionType.INCOME, Category.SALARY, LocalDateTime.parse("2025-04-12T09:30:00"))
     )
 
     StorageOperationImpl.saveToFile(transactions, testPath, "Mohammed")
@@ -148,7 +148,7 @@ fun main() {
             val user = StorageOperationImpl.loadNameFromFile(testLoadPath)
 
             transactions.size == 1 &&
-                    transactions[0].category == Category.Food &&
+                    transactions[0].category == Category.FOOD &&
                     user == null
         },
         expected = true

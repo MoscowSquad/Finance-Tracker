@@ -2,7 +2,7 @@ package file
 
 import java.io.File
 
-public inline fun <T> withFileLines(
+inline fun <T> withFileLines(
     storagePath: String,
     block: (List<String>) -> T
 ): T {
