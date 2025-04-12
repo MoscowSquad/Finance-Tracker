@@ -12,7 +12,7 @@ fun main() {
     check(
         testcase = "Add transaction case is valid return true",
         value = transactionRepository.addTransaction(
-            1000.0, category = Category.FOOD
+            1000.0, category = Category.SALARY
         ),
         expected = true
     )
@@ -56,8 +56,8 @@ fun main() {
             Transaction(
                 1235,
                 100.0,
-                TransactionType.EXPENSE,
-                Category.FOOD,
+                TransactionType.INCOME,
+                Category.SALARY,
                 LocalDateTime.parse("2025-03-03T10:15:30")
             ),
             Transaction(
@@ -159,7 +159,7 @@ fun main() {
     )
     check(
         testcase = "The transaction id found return true",
-        value = transactionRepository.deleteTransaction(1235, type = TransactionType.INCOME),
+        value = transactionRepository.deleteTransaction(1235, type = TransactionType.EXPENSE),
         expected = true
     )
 }
