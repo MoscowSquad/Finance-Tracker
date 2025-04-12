@@ -97,6 +97,6 @@ fun main() {
     check(
         testcase = "There in one income transaction and one expense transaction in the given month",
         value = ReportRepositoryImpl().prepareTransactionSummary(transactions, LocalDateTime.now().month),
-        expected = TransactionSummary(totalIncomes = 300.0, totalExpenses = 250.0, balance = 50.0)
+        expected = TransactionSummary(totalIncomes = 300.0, totalExpenses = 350.0, balance = -50.0)
     )
 }
