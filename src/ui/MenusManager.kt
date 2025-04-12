@@ -32,8 +32,8 @@ class MenusManager {
                     "4- Exit\n" +
                     "Enter Your option: ")
             when (readln().toIntOrNull()) {
-                1 -> incomeMenu(transactionRepository)
-                2 -> expensesMenu(transactionRepository)
+                1 -> transactionMenu(transactionRepository, TransactionType.INCOME, "Income")
+                2 -> transactionMenu(transactionRepository, TransactionType.EXPENSE, "Expense")
                 3 -> viewTransactionMenu(transactionRepository, reportRepository)
                 4 -> break
                 null -> println("Invalid Input try again")
@@ -42,42 +42,31 @@ class MenusManager {
         }
     }
 
-    private fun expensesMenu(transactionRepository: TransactionRepository) {
-        while (true){
-            divider("Expenses Menu")
+    private fun transactionMenu(
+        transactionRepository: TransactionRepository,
+        type: TransactionType,
+        title: String
+    ) {
+        while (true) {
+            divider("$title Menu")
 
-            print("1- Add expense\n" + //done
-                        "2- View expense transaction\n" + // done
-                        "3- Back\n" +
-                        "Enter Your option: "
+            println(
+                "1- Add ${type.name.lowercase().replaceFirstChar { it.uppercase() }}\n" +
+                        "2- Modify ${type.name.lowercase()} transaction\n" +
+                        "3- Back"
             )
+            print("Enter Your option: ")
+
             when (readln().toIntOrNull()) {
-                1 -> transactionProcessor.addTransactionMenu(transactionRepository::addTransaction,TransactionType.EXPENSE)
-                2 -> transactionProcessor.viewTransaction(transactionRepository,TransactionType.EXPENSE)
+                1 -> transactionProcessor.addTransactionMenu(transactionRepository::addTransaction, type)
+                2 -> transactionProcessor.viewTransaction(transactionRepository, type)
                 3 -> return
-                null -> println("Invalid Input try again")
-                else -> println("Enter a valid number between 1 - 3")
+                null -> println("Invalid input. Try again.")
+                else -> println("Enter a valid number between 1 - 3.")
             }
         }
     }
 
-    private fun incomeMenu(transactionRepository: TransactionRepository) {
-        while (true){
-            divider("Income Menu")
-            print(
-                    "1- Add Income\n" + //done
-                    "2- View income transaction\n" + // done
-                    "3- Back\n" +
-                    "Enter Your option: ")
-            when(readln().toIntOrNull()){
-                1 -> transactionProcessor.addTransactionMenu(transactionRepository::addTransaction,TransactionType.INCOME)
-                2 -> transactionProcessor.viewTransaction(transactionRepository,TransactionType.INCOME)
-                3 -> return
-                null -> println("Invalid Input try again")
-                else -> println("Enter a valid number between 1 - 3")
-            }
-        }
-    }
 
     private fun viewTransactionMenu(transactionRepository: TransactionRepository, reportRepository: ReportRepository) {
         divider("View Transaction Menu")
