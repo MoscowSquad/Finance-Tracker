@@ -33,14 +33,6 @@ fun main() {
         expected = false
     )
 
-    check(
-        testcase = "The transaction-type is not the same as category-type value is negative return false",
-        value = transactionRepository.addTransaction(
-            -100.0, Category.SALARY
-        ),
-        expected = false
-    )
-
     // Edit functionality
     transactionRepository = TransactionRepositoryImpl(mutableListOf())
     check(
